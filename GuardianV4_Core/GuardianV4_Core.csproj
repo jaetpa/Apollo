@@ -5,4 +5,21 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Services\CommandHandlingService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Services\CommandHandlingService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Addons.MicrosoftLogging" Version="2.0.0-beta-00005" />
+    <PackageReference Include="Discord.Net" Version="2.0.0-beta-00880" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
+  </ItemGroup>
+
 </Project>
