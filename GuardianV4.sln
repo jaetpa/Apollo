@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuardianV4_Core", "GuardianV4_Core\GuardianV4_Core.csproj", "{C474935B-3DFA-435F-A47A-CFF9661DD1AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuardianV4_Tests", "GuardianV4_Tests\GuardianV4_Tests.csproj", "{45277956-8208-4024-AAEC-DD1A404E8D3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuardianV4_Tests", "GuardianV4_Tests\GuardianV4_Tests.csproj", "{45277956-8208-4024-AAEC-DD1A404E8D3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{104177E0-E120-4CCB-B499-FC24BB969C4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

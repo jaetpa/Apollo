@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-
 namespace GuardianV4_Core.Services
 {
     public class LogService
@@ -29,28 +25,8 @@ namespace GuardianV4_Core.Services
 
 
             _client.Log += LogDiscord;
-            _client.Log += LogCommand;
+            _commandService.Log += LogCommand;
 
-        }
-
-        private Task LogCommand(LogMessage arg)
-        {
-            _discordLogger.Log(
-                LogLevelFromSeverity(arg.Severity),
-                0,
-                arg.Message,
-                arg.Exception,
-                (_1, _2) => arg.ToString(prependTimestamp:true, timestampKind:DateTimeKind.Local));
-
-            return Task.CompletedTask;
-        }
-
-        private static LogLevel LogLevelFromSeverity(LogSeverity severity)
-            => (LogLevel)(Math.Abs((int)severity - 5));
-
-        private Task LogDiscord(LogMessage arg)
-        {
-            throw new NotImplementedException();
         }
 
         private ILoggerFactory ConfigureLogging(ILoggerFactory factory)
@@ -58,5 +34,36 @@ namespace GuardianV4_Core.Services
             factory.AddConsole();
             return factory;
         }
+
+        private Task LogDiscord(LogMessage arg)
+        {
+            Log(arg);
+
+            return Task.CompletedTask;
+        }
+        private Task LogCommand(LogMessage arg)
+        {
+            if (arg.Exception is CommandException command)
+            {
+                var _ = command.Context.Channel.SendMessageAsync($"Error: {command.Message}");
+            }
+
+            Log(arg);
+            return Task.CompletedTask;
+        }
+
+        private void Log(LogMessage arg)
+        {
+            _discordLogger.Log(
+                            LogLevelFromSeverity(arg.Severity),
+                            0,
+                            arg.Message,
+                            arg.Exception,
+                            (_1, _2) => arg.ToString(prependTimestamp: true, timestampKind: DateTimeKind.Local));
+        }
+
+        private static LogLevel LogLevelFromSeverity(LogSeverity severity)
+            => (LogLevel)(Math.Abs((int)severity - 5));
+
     }
 }
