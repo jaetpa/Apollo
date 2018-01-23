@@ -9,6 +9,7 @@ using GuardianV4_Core.Services;
 using Discord.WebSocket;
 using System.IO;
 using Discord;
+using GuardianV4_Core.Modules;
 
 namespace GuardianV4_Core
 {
@@ -46,7 +47,8 @@ namespace GuardianV4_Core
 
             Services = AddServices();
             Services.GetRequiredService<LogService>();
-            Services.GetRequiredService<CommandHandlingService>();
+            await Services.GetRequiredService<CommandHandlingService>().InitializeAsync(Services);
+            Services.GetRequiredService<ModeratorModule>();
 
             await Task.Delay(-1);
         }
@@ -58,6 +60,7 @@ namespace GuardianV4_Core
             .AddSingleton(_client)
             .AddSingleton<CommandService>()
             .AddSingleton<CommandHandlingService>()
+            .AddSingleton<ModeratorModule>()
             .AddLogging()
             .AddSingleton<LogService>()
             .AddSingleton(_config)
