@@ -48,7 +48,8 @@ namespace GuardianV4_Core
             Services = AddServices();
             Services.GetRequiredService<LogService>();
             await Services.GetRequiredService<CommandHandlingService>().InitializeAsync(Services);
-            Services.GetRequiredService<ModeratorModule>();
+            Services.GetRequiredService<LogChannelService>();
+
 
             await Task.Delay(-1);
         }
@@ -58,12 +59,13 @@ namespace GuardianV4_Core
         {
             return new ServiceCollection()
             .AddSingleton(_client)
-            .AddSingleton<CommandService>()
-            .AddSingleton<CommandHandlingService>()
-            .AddSingleton<ModeratorModule>()
+            .AddSingleton(_config)
             .AddLogging()
             .AddSingleton<LogService>()
-            .AddSingleton(_config)
+            .AddSingleton<CommandService>()
+            .AddSingleton<CommandHandlingService>()
+            .AddSingleton<LogChannelService>()
+            .AddSingleton<ModeratorModule>()
             .BuildServiceProvider();
         }
 

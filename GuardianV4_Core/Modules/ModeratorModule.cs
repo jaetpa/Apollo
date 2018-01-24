@@ -11,7 +11,7 @@ namespace GuardianV4_Core.Modules
         [Command("test")]
         public async Task Test()
         {
-            var embedBuilder = new EmbedMessageBuilder().WithEmbedType(EmbedType.Kick);
+            var embedBuilder = new EmbedMessageBuilder().WithEmbedType(EmbedType.UsernameChange).WithTimestamp();
             var embed = embedBuilder.Build();
             await ReplyAsync("", embed: embed);
         }
