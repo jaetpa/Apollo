@@ -18,6 +18,8 @@ namespace GuardianV4_Repository.Repositories
 
         public void Add(ServerEntity entity)
         {
+            entity.DateAdded = DateTimeOffset.Now;
+            entity.DateUpdated = DateTimeOffset.Now;
             _context.Servers.Add(entity);
         }
 
@@ -43,6 +45,7 @@ namespace GuardianV4_Repository.Repositories
 
         public void Update(ServerEntity entity)
         {
+            entity.DateUpdated = DateTimeOffset.Now;
             _context.Servers.Update(entity);
         }
     }
