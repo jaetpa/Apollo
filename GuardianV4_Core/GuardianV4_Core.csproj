@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\Moderation\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GuardianV4_Repository\GuardianV4_Repository.csproj" />
   </ItemGroup>
 
