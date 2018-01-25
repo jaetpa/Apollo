@@ -6,5 +6,7 @@ namespace GuardianV4_Data.Entities
     {
         public ulong Id { get; set; }
         public DateTimeOffset DateAdded { get; set; }
+        public DateTimeOffset DateUpdated { get; set; }
+
     }
 }

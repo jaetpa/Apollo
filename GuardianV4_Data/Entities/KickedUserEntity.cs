@@ -4,10 +4,12 @@ using System.Text;
 
 namespace GuardianV4_Data.Entities
 {
-    public class KickedUserEntity
+    public class KickedUserEntity : DatabaseEntity
     {
         ulong ID { get; set; }
+        ulong ServerId { get; set; }
         string Username { get; set; }
+        string ServerName { get; set; }
         DateTimeOffset LastKickTime { get; set; }
     }
 }
