@@ -68,6 +68,7 @@ namespace GuardianV4_Core
             .AddSingleton<DatabaseService>()
             .AddSingleton<GuildSetupService>()
             .AddSingleton<LogChannelService>()
+            .AddSingleton<AutoModerationService>()
             .AddSingleton<ModeratorModule>()
             .BuildServiceProvider();
         }
