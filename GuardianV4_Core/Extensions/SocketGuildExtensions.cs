@@ -84,5 +84,18 @@ namespace GuardianV4_Core.Extensions
             }
         }
 
+        public static bool LockdownEnabled(this SocketGuild guild)
+        {
+            using (var uow = new DatabaseService().UnitOfWork)
+            {
+                var entity = uow.Servers.Find(guild.Id);
+                if (entity?.Lockdown != null)
+                {
+                    return entity.Lockdown;
+                }
+                else return false;
+            }
+        }
+
     }
 }
