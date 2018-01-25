@@ -1,4 +1,6 @@
 ﻿using Discord.WebSocket;
+using GuardianV4_Core.Extensions;
+using GuardianV4_Core.Modules.Moderation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +18,7 @@ namespace GuardianV4_Core.Services
             _db = db;
 
             _client.GuildAvailable += EnsureGuildInDb;
+            _client.GuildAvailable += SetLockdownModeTopic;
         }
 
         private Task EnsureGuildInDb(SocketGuild arg)
@@ -37,6 +40,19 @@ namespace GuardianV4_Core.Services
                 }
             }
             return Task.CompletedTask;
+        }
+
+        private async Task SetLockdownModeTopic(SocketGuild arg)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var entity = uow.Servers.Find(arg.Id);
+
+                if (entity != null)
+                {
+                    await ModeratorModule.SetMainChannelTopic_Lockdown(entity, arg.GetMainChannel());
+                }
+            }
         }
     }
 }
