@@ -27,11 +27,21 @@ namespace GuardianV4_Core
                 case EmbedType.Join:
                     embedBuilder.Title = "User Joined";
                     embedBuilder.Color = new Color(0x15C126);
+                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
+                                    .WithText($"User {user.Id} joined the server")
+                                    .WithIconUrl(user.GetAvatarUrl()))
+                                .WithTimestamp();
                     break;
+
                 case EmbedType.Leave:
                     embedBuilder.Title = "User Left";
                     embedBuilder.Color = new Color(0x0E7B19);
+                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
+                                    .WithText($"User {user.Id} left the server")
+                                    .WithIconUrl(user.GetAvatarUrl()))
+                                .WithTimestamp();
                     break;
+
                 case EmbedType.LockdownEnabled:
                     embedBuilder.Title = "Lockdown Enabled";
                     embedBuilder.Color = new Color(0xE3C126);
