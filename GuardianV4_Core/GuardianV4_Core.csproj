@@ -14,4 +14,12 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Modules\Moderation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GuardianV4_Repository\GuardianV4_Repository.csproj" />
+  </ItemGroup>
+
 </Project>
