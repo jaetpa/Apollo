@@ -45,14 +45,27 @@ namespace GuardianV4_Core
                 case EmbedType.LockdownEnabled:
                     embedBuilder.Title = "Lockdown Enabled";
                     embedBuilder.Color = new Color(0xE3C126);
+                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
+                                    .WithText($"User {user.Id} enabled Lockdown mode")
+                                    .WithIconUrl(user.GetAvatarUrl()))
+                                .WithTimestamp();
                     break;
                 case EmbedType.LockdownDisabled:
                     embedBuilder.Title = "Lockdown Disabled";
                     embedBuilder.Color = new Color(0xB5991E);
+                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
+                                    .WithText($"User {user.Id} disabled Lockdown mode")
+                                    .WithIconUrl(user.GetAvatarUrl()))
+                                .WithTimestamp();
+
                     break;
                 case EmbedType.LockdownKick:
                     embedBuilder.Title = "User Kicked by Lockdown";
                     embedBuilder.Color = new Color(0xE24926);
+                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
+                                .WithText($"User {user.Id} blocked by Lockdown mode")
+                                .WithIconUrl(user.GetAvatarUrl()))
+                            .WithTimestamp();
                     break;
                 case EmbedType.Kick:
                     embedBuilder.Title = "User Kicked";
