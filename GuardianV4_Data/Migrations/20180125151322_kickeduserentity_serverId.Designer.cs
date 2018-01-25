@@ -11,8 +11,8 @@ using System;
 namespace GuardianV4_Data.Migrations
 {
     [DbContext(typeof(DiscordBotContext))]
-    [Migration("20180125022553_delete_log_channelId_property")]
-    partial class delete_log_channelId_property
+    [Migration("20180125151322_kickeduserentity_serverId")]
+    partial class kickeduserentity_serverId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,6 +26,8 @@ namespace GuardianV4_Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("DateAdded");
+
+                    b.Property<DateTimeOffset>("DateUpdated");
 
                     b.Property<string>("Name");
 
@@ -45,19 +47,23 @@ namespace GuardianV4_Data.Migrations
                     b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<ulong>("BotChannelId");
+                    b.Property<ulong?>("BotChannelId");
 
                     b.Property<DateTimeOffset>("DateAdded");
 
-                    b.Property<ulong>("DeleteLogChannelId");
+                    b.Property<DateTimeOffset>("DateUpdated");
+
+                    b.Property<ulong?>("DeleteLogChannelId");
 
                     b.Property<string>("GuildName");
 
-                    b.Property<ulong>("LogChannelId");
+                    b.Property<ulong?>("LogChannelId");
 
-                    b.Property<ulong>("MainChannelId");
+                    b.Property<ulong?>("MainChannelId");
 
-                    b.Property<ulong>("StaffChannelId");
+                    b.Property<ulong?>("StaffChannelId");
+
+                    b.Property<ulong?>("VoiceTextChannelId");
 
                     b.HasKey("Id");
 

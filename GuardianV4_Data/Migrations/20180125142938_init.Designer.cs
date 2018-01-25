@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace GuardianV4_Data.Migrations
 {
     [DbContext(typeof(DiscordBotContext))]
-    [Migration("20180123192804_init")]
+    [Migration("20180125142938_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +24,10 @@ namespace GuardianV4_Data.Migrations
                 {
                     b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("DateAdded");
+
+                    b.Property<DateTimeOffset>("DateUpdated");
 
                     b.Property<string>("Name");
 
@@ -42,13 +47,21 @@ namespace GuardianV4_Data.Migrations
                     b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<ulong>("BotChannelId");
+                    b.Property<ulong?>("BotChannelId");
 
-                    b.Property<ulong>("LogChannelId");
+                    b.Property<DateTimeOffset>("DateAdded");
 
-                    b.Property<ulong>("MainChannelId");
+                    b.Property<DateTimeOffset>("DateUpdated");
 
-                    b.Property<ulong>("StaffChannelId");
+                    b.Property<ulong?>("DeleteLogChannelId");
+
+                    b.Property<string>("GuildName");
+
+                    b.Property<ulong?>("LogChannelId");
+
+                    b.Property<ulong?>("MainChannelId");
+
+                    b.Property<ulong?>("StaffChannelId");
 
                     b.HasKey("Id");
 

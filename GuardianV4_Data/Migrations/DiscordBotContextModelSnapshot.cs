@@ -26,6 +26,8 @@ namespace GuardianV4_Data.Migrations
 
                     b.Property<DateTimeOffset>("DateAdded");
 
+                    b.Property<DateTimeOffset>("DateUpdated");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("Quote");
@@ -44,19 +46,23 @@ namespace GuardianV4_Data.Migrations
                     b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<ulong>("BotChannelId");
+                    b.Property<ulong?>("BotChannelId");
 
                     b.Property<DateTimeOffset>("DateAdded");
 
-                    b.Property<ulong>("DeleteLogChannelId");
+                    b.Property<DateTimeOffset>("DateUpdated");
+
+                    b.Property<ulong?>("DeleteLogChannelId");
 
                     b.Property<string>("GuildName");
 
-                    b.Property<ulong>("LogChannelId");
+                    b.Property<ulong?>("LogChannelId");
 
-                    b.Property<ulong>("MainChannelId");
+                    b.Property<ulong?>("MainChannelId");
 
-                    b.Property<ulong>("StaffChannelId");
+                    b.Property<ulong?>("StaffChannelId");
+
+                    b.Property<ulong?>("VoiceTextChannelId");
 
                     b.HasKey("Id");
 

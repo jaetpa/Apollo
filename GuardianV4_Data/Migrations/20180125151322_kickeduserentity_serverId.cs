@@ -4,21 +4,20 @@ using System.Collections.Generic;
 
 namespace GuardianV4_Data.Migrations
 {
-    public partial class delete_log_channelId_property : Migration
+    public partial class kickeduserentity_serverId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<ulong>(
-                name: "DeleteLogChannelId",
+                name: "VoiceTextChannelId",
                 table: "Servers",
-                nullable: false,
-                defaultValue: 0ul);
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "DeleteLogChannelId",
+                name: "VoiceTextChannelId",
                 table: "Servers");
         }
     }

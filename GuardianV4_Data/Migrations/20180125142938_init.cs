@@ -14,10 +14,14 @@ namespace GuardianV4_Data.Migrations
                 {
                     Id = table.Column<ulong>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    BotChannelId = table.Column<ulong>(nullable: false),
-                    LogChannelId = table.Column<ulong>(nullable: false),
-                    MainChannelId = table.Column<ulong>(nullable: false),
-                    StaffChannelId = table.Column<ulong>(nullable: false)
+                    BotChannelId = table.Column<ulong>(nullable: true),
+                    DateAdded = table.Column<DateTimeOffset>(nullable: false),
+                    DateUpdated = table.Column<DateTimeOffset>(nullable: false),
+                    DeleteLogChannelId = table.Column<ulong>(nullable: true),
+                    GuildName = table.Column<string>(nullable: true),
+                    LogChannelId = table.Column<ulong>(nullable: true),
+                    MainChannelId = table.Column<ulong>(nullable: true),
+                    StaffChannelId = table.Column<ulong>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,6 +34,8 @@ namespace GuardianV4_Data.Migrations
                 {
                     Id = table.Column<ulong>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    DateAdded = table.Column<DateTimeOffset>(nullable: false),
+                    DateUpdated = table.Column<DateTimeOffset>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Quote = table.Column<string>(nullable: true),
                     ServerEntityId = table.Column<ulong>(nullable: true)
