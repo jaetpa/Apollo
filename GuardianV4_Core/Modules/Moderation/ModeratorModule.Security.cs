@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using GuardianV4_Core.Extensions;
 using System;
 using System.Collections.Generic;
@@ -28,33 +29,54 @@ namespace GuardianV4_Core.Modules.Moderation
                 entity.Lockdown = !entity.Lockdown;
                 uow.SaveChanges();
 
-                string lockdownString = ":warning: Lockdown Mode Enabled!";
                 if (entity.Lockdown)
                 {
-                    var mainChannel = Context.Guild.GetMainChannel();
-                    if (mainChannel != null)
-                    {
-                        await mainChannel.ModifyAsync((TextChannelProperties x) => x.Topic = $"{lockdownString} {mainChannel.Topic ?? String.Empty}");
-                    }
+                    await ReplyAsync("Lockdown mode enabled. New users will be blocked from joining.");
+
+                    var embed = new EmbedBuilder()
+                        .WithEmbedType(EmbedType.LockdownEnabled, Context.User)
+                        .WithDescription($"User **{Context.User}** enabled Lockdown mode.")
+                        .Build();
+                    Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
+
                 }
                 else
                 {
-                    var mainChannel = Context.Guild.GetMainChannel();
-                    if (mainChannel != null)
-                    {
-                        await mainChannel.ModifyAsync((TextChannelProperties x) =>
-                        {
-                            if (mainChannel.Topic.StartsWith($"{lockdownString} "))
-                            {
-                                x.Topic = $"{mainChannel.Topic.Split($"{lockdownString} ")[1]}";
-                            }
-                        });
-                    }
+                    await ReplyAsync("Lockdown mode disabled. New users will be allowed to join.");
+
+                    var embed = new EmbedBuilder()
+                        .WithEmbedType(EmbedType.LockdownDisabled, Context.User)
+                        .WithDescription($"User **{Context.User}** disabled Lockdown mode.")
+                        .Build();
+                    Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
                 }
+
+                await SetMainChannelTopic_Lockdown(entity, Context.Guild.GetMainChannel());
             }
         }
 
+        public static async Task SetMainChannelTopic_Lockdown(GuardianV4_Data.Entities.ServerEntity entity, SocketTextChannel channel)
+        {
+            string lockdownString = ":warning: Lockdown Mode Enabled!";
 
+            if (entity.Lockdown && channel != null)
+            {
+                await channel.ModifyAsync((TextChannelProperties x) => x.Topic = $"{lockdownString} {channel.Topic ?? String.Empty}");
+            }
+            else
+            {
+                if (channel != null)
+                {
+                    await channel.ModifyAsync((TextChannelProperties x) =>
+                    {
+                        if (channel.Topic.StartsWith($"{lockdownString} "))
+                        {
+                            x.Topic = $"{channel.Topic.Split($"{lockdownString} ")[1]}";
+                        }
+                    });
+                }
+            }
+        }
     }
 }
 
