@@ -20,7 +20,7 @@ namespace GuardianV4_Core
     }
     public static class EmbedMessageExtensions
     {
-        public static EmbedBuilder WithEmbedType(this EmbedBuilder embedBuilder, EmbedType embedType, DiscordSocketClient client)
+        public static EmbedBuilder WithEmbedType(this EmbedBuilder embedBuilder, EmbedType embedType, IUser user)
         {
             switch (embedType)
             {
@@ -69,7 +69,8 @@ namespace GuardianV4_Core
                     embedBuilder.Color = new Color(0xDBDBDB);
                     embedBuilder.WithDescription($"Guardian conected. I'm online!");
                     embedBuilder.WithTimestamp();
-                    embedBuilder.WithBotAvatarFooter(client);
+                    embedBuilder.WithFooter(
+                        (embedBuilder.Footer ?? new EmbedFooterBuilder()).WithIconUrl(user.GetAvatarUrl()));
                     break;
                 case EmbedType.Quote:
                     embedBuilder.Title = "Quote";
@@ -98,18 +99,6 @@ namespace GuardianV4_Core
                     break;
             }
             return embedBuilder;
-        }
-
-        public static EmbedBuilder WithBotAvatarFooter(this EmbedBuilder embedBuilder, DiscordSocketClient client)
-        {
-            if (embedBuilder.Footer == null)
-            {
-                return embedBuilder.WithFooter(new EmbedFooterBuilder().WithIconUrl(client.CurrentUser.GetAvatarUrl()));
-            }
-            else
-            {
-                return embedBuilder.WithFooter(embedBuilder.Footer.WithIconUrl(client.CurrentUser.GetAvatarUrl()));
-            }
         }
 
         public static EmbedBuilder WithTimestamp(this EmbedBuilder embedBuilder)
