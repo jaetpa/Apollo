@@ -2,14 +2,13 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Discord.Addons.MicrosoftLogging;
 using Microsoft.Extensions.Logging;
 using Discord.Commands;
 using GuardianV4_Core.Services;
 using Discord.WebSocket;
 using System.IO;
 using Discord;
-using GuardianV4_Core.Modules;
+using GuardianV4_Core.Modules.Moderation;
 
 namespace GuardianV4_Core
 {
