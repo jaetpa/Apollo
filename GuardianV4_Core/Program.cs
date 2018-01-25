@@ -51,6 +51,7 @@ namespace GuardianV4_Core
             Services.GetRequiredService<DatabaseService>();
             Services.GetRequiredService<GuildSetupService>();
             Services.GetRequiredService<LogChannelService>();
+            Services.GetRequiredService<AutoModerationService>();
 
             await Task.Delay(-1);
         }
