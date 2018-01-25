@@ -26,6 +26,12 @@ namespace GuardianV4_Core.Services
             var welcomeChannel = arg.Guild.GetWelcomeChannel();
             var logChannel = arg.Guild.GetLogChannel();
 
+            if (arg.Guild.LockdownEnabled())
+            {
+                BlockUserJoin(arg);
+                return;
+            }
+
             if (welcomeChannel != null)
             {
                 await welcomeChannel.SendMessageAsync($"User **{arg.Mention}** joined the server.");
@@ -42,8 +48,20 @@ namespace GuardianV4_Core.Services
             }
         }
 
+        private void BlockUserJoin(SocketGuildUser user)
+        {
+            user.KickAsync("Joined during Lockdown mode.");
+            var embed = new EmbedBuilder()
+                .WithEmbedType(EmbedType.LockdownKick, user)
+                .WithDescription($"User **{user}** was automatically kicked by Lockdown mode.")
+                .Build();
+
+            user.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
+        }
+
         private async Task UserLeft(SocketGuildUser arg)
         {
+            //TODO: Stop leave messages for people kicked during lockdown
             var welcomeChannel = arg.Guild.GetWelcomeChannel();
             var logChannel = arg.Guild.GetLogChannel();
 
