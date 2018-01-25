@@ -17,7 +17,5 @@ namespace GuardianV4_Data.Contexts
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             options.UseSqlite($"Data Source={path}\\GuardianV4\\GuardianV4.db;");
         }
-
-
     }
 }

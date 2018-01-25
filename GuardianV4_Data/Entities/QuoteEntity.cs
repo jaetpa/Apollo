@@ -1,8 +1,7 @@
 ﻿namespace GuardianV4_Data.Entities
 {
-    public class QuoteEntity
+    public class QuoteEntity : DatabaseEntity
     {
-        public ulong Id { get; set; }
         public string Name { get; set; }
         public string Quote { get; set; }
     }

@@ -11,9 +11,10 @@ using System;
 namespace GuardianV4_Data.Migrations
 {
     [DbContext(typeof(DiscordBotContext))]
-    partial class DiscordBotContextModelSnapshot : ModelSnapshot
+    [Migration("20180125021201_DatabaseEntity_base_class")]
+    partial class DatabaseEntity_base_class
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,8 +48,6 @@ namespace GuardianV4_Data.Migrations
                     b.Property<ulong>("BotChannelId");
 
                     b.Property<DateTimeOffset>("DateAdded");
-
-                    b.Property<ulong>("DeleteLogChannelId");
 
                     b.Property<string>("GuildName");
 

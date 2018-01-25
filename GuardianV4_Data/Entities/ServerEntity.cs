@@ -4,11 +4,12 @@ using System.Text;
 
 namespace GuardianV4_Data.Entities
 {
-    public class ServerEntity
+    public class ServerEntity : DatabaseEntity
     {
-        public ulong Id { get; set; }
+        public string GuildName { get; set; }
         public ulong MainChannelId { get; set; }
         public ulong LogChannelId { get; set; }
+        public ulong DeleteLogChannelId { get; set; }
         public ulong BotChannelId { get; set; }
         public ulong StaffChannelId { get; set; }
 
