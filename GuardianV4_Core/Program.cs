@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Discord.Addons.MicrosoftLogging;
 using Microsoft.Extensions.Logging;
 using Discord.Commands;
 using GuardianV4_Core.Services;
 using Discord.WebSocket;
 using System.IO;
 using Discord;
+using GuardianV4_Core.Modules.Moderation;
 
 namespace GuardianV4_Core
 {
@@ -28,7 +28,7 @@ namespace GuardianV4_Core
 #endif
                 return token;
             }
-                }
+        }
         private IConfiguration _config;
         private DiscordSocketClient _client;
 
@@ -38,7 +38,7 @@ namespace GuardianV4_Core
         public async Task MainAsync()
         {
             _config = BuildConfig();
-            
+
             DiscordSocketConfig socketConfig = new DiscordSocketConfig { AlwaysDownloadUsers = true };
             _client = new DiscordSocketClient(socketConfig);
             await _client.LoginAsync(TokenType.Bot, Token);
@@ -46,7 +46,11 @@ namespace GuardianV4_Core
 
             Services = AddServices();
             Services.GetRequiredService<LogService>();
-            Services.GetRequiredService<CommandHandlingService>();
+            await Services.GetRequiredService<CommandHandlingService>().InitializeAsync(Services);
+            Services.GetRequiredService<DatabaseService>();
+            Services.GetRequiredService<GuildSetupService>();
+            Services.GetRequiredService<LogChannelService>();
+            Services.GetRequiredService<AutoModerationService>();
 
             await Task.Delay(-1);
         }
@@ -56,11 +60,16 @@ namespace GuardianV4_Core
         {
             return new ServiceCollection()
             .AddSingleton(_client)
-            .AddSingleton<CommandService>()
-            .AddSingleton<CommandHandlingService>()
+            .AddSingleton(_config)
             .AddLogging()
             .AddSingleton<LogService>()
-            .AddSingleton(_config)
+            .AddSingleton<CommandService>()
+            .AddSingleton<CommandHandlingService>()
+            .AddSingleton<DatabaseService>()
+            .AddSingleton<GuildSetupService>()
+            .AddSingleton<LogChannelService>()
+            .AddSingleton<AutoModerationService>()
+            .AddSingleton<ModeratorModule>()
             .BuildServiceProvider();
         }
 
