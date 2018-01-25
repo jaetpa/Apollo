@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GuardianV4_Core.Modules
+namespace GuardianV4_Core.Modules.Moderation
 {
     public partial class ModeratorModule : ModuleBase<SocketCommandContext>
     {
