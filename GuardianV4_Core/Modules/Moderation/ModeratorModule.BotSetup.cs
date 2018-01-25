@@ -44,7 +44,7 @@ namespace GuardianV4_Core.Modules
                     uow.Servers.Update(entity);
                     entity.WelcomeChannelId = channel?.Id ?? Context.Channel.Id;
                     uow.SaveChanges();
-                    await ReplyAsync($"Channel {channel?.Mention ?? (Context.Channel as SocketTextChannel).Mention} has been set as the **main** channel.");
+                    await ReplyAsync($"Channel {channel?.Mention ?? (Context.Channel as SocketTextChannel).Mention} has been set as the **welcome** channel.");
                 }
                 else
                 {
