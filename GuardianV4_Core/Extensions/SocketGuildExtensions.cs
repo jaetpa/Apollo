@@ -21,6 +21,20 @@ namespace GuardianV4_Core.Extensions
             }
         }
 
+        public static SocketTextChannel GetWelcomeChannel(this SocketGuild guild)
+        {
+            using (var uow = new DatabaseService().UnitOfWork)
+            {
+                var entity = uow.Servers.Find(guild.Id);
+                if (entity?.WelcomeChannelId != null)
+                {
+                    return guild.GetTextChannel(entity.WelcomeChannelId.Value);
+                }
+                else return null;
+            }
+        }
+
+
         public static SocketTextChannel GetStaffChannel(this SocketGuild guild)
         {
             using (var uow = new DatabaseService().UnitOfWork)
