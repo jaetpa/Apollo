@@ -21,8 +21,6 @@ namespace GuardianV4_Core.Services
 
         }
 
-
-
         private async Task LogConnected(SocketGuild arg)
         {
             var logChannel = arg.GetLogChannel();
@@ -47,9 +45,8 @@ namespace GuardianV4_Core.Services
                 var embed = new EmbedBuilder()
                     .WithEmbedType(EmbedType.UsernameChange, arg2)
                     .WithDescription($"User **{arg1}** changed username to **{arg2}**")
-                    .WithTimestamp()
                     .Build();
-                await (arg2 as SocketGuildUser).Guild.GetLogChannel().SendMessageAsync("", embed: embed);
+                await (arg2 as SocketGuildUser).Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
             }
         }
 
@@ -80,9 +77,8 @@ namespace GuardianV4_Core.Services
                 var embed = new EmbedBuilder()
                     .WithEmbedType(EmbedType.NicknameChange, arg2)
                     .WithDescription(message)
-                    .WithTimestamp()
                     .Build();
-                await (arg2 as SocketGuildUser).Guild.GetLogChannel().SendMessageAsync("", embed: embed);
+                await (arg2 as SocketGuildUser).Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
             }
         }
     }

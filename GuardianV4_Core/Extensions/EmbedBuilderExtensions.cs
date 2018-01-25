@@ -92,15 +92,17 @@ namespace GuardianV4_Core
                     embedBuilder.Title = "User Changed Username";
                     embedBuilder.Color = new Color(0x38A4B5);
                     embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                        .WithText($"User {user.Id} changed username")
-                        .WithIconUrl(user.GetAvatarUrl()));
+                                    .WithText($"User {user.Id} changed username")
+                                    .WithIconUrl(user.GetAvatarUrl()))
+                                .WithTimestamp();
                     break;
                 case EmbedType.NicknameChange:
                     embedBuilder.Title = "User Changed Nickname";
                     embedBuilder.Color = new Color(0x47D0E5);
                     embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                        .WithText($"User {user.Id} changed nickname")
-                        .WithIconUrl(user.GetAvatarUrl()));
+                                    .WithText($"User {user.Id} changed nickname")
+                                    .WithIconUrl(user.GetAvatarUrl()))
+                                .WithTimestamp();
                     break;
             }
             return embedBuilder;
