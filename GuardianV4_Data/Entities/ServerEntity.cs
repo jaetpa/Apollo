@@ -14,6 +14,7 @@ namespace GuardianV4_Data.Entities
         public ulong? LogChannelId { get; set; }
         public ulong? DeleteLogChannelId { get; set; }
         public ulong? VoiceTextChannelId { get; set; }
+        public bool Lockdown { get; set; } = false;
 
         public virtual ICollection<QuoteEntity> Quotes { get; set; }
     }
