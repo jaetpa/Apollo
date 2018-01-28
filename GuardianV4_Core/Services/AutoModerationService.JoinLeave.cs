@@ -11,6 +11,7 @@ namespace GuardianV4_Core.Services
     public partial class AutoModerationService
     {
         DiscordSocketClient _client;
+        Dictionary<ulong, UserJoinQueue> _userQueues = new Dictionary<ulong, UserJoinQueue>();
 
         public AutoModerationService(DiscordSocketClient client)
         {
@@ -23,6 +24,7 @@ namespace GuardianV4_Core.Services
 
         private async Task UserJoined(SocketGuildUser arg)
         {
+            var userQueue = GetOrCreateUserQueue(arg);
             var welcomeChannel = arg.Guild.GetWelcomeChannel();
             var logChannel = arg.Guild.GetLogChannel();
 
@@ -45,6 +47,19 @@ namespace GuardianV4_Core.Services
                     .WithDescription($"User **{arg}** joined the server.")
                     .Build();
                 await logChannel.SendMessageAsync("", embed: embed);
+            }
+        }
+
+        private UserJoinQueue GetOrCreateUserQueue(IGuild guild)
+        {
+            if (_userQueues.ContainsKey(guild.Id))
+            {
+                return _userQueues[guild.Id];
+            }
+            else
+            {
+                _userQueues.Add(guild.Id, new UserJoinQueue());
+                return _userQueues[guild.Id];
             }
         }
 
