@@ -27,61 +27,39 @@ namespace GuardianV4_Core
                 case EmbedType.Join:
                     embedBuilder.Title = "User Joined";
                     embedBuilder.Color = new Color(0x15C126);
-                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id}")
-                                    .WithIconUrl(userToDisplay.GetAvatarUrl()))
-                                .WithTimestamp();
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
 
                 case EmbedType.Leave:
                     embedBuilder.Title = "User Left";
                     embedBuilder.Color = new Color(0x0E7B19);
-                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id}")
-                                    .WithIconUrl(userToDisplay.GetAvatarUrl()))
-                                .WithTimestamp();
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
 
                 case EmbedType.LockdownEnabled:
                     embedBuilder.Title = "Lockdown Enabled";
                     embedBuilder.Color = new Color(0xE3C126);
-                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id}")
-                                    .WithIconUrl(userToDisplay.GetAvatarUrl()))
-                                .WithTimestamp();
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
                 case EmbedType.LockdownDisabled:
                     embedBuilder.Title = "Lockdown Disabled";
                     embedBuilder.Color = new Color(0xB5991E);
-                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id}")
-                                    .WithIconUrl(userToDisplay.GetAvatarUrl()))
-                                .WithTimestamp();
-
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
                 case EmbedType.LockdownKick:
                     embedBuilder.Title = "User Kicked by Lockdown";
                     embedBuilder.Color = new Color(0xE24926);
-                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id}")
-                                    .WithIconUrl(userToDisplay.GetAvatarUrl()))
-                                .WithTimestamp();
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
                 case EmbedType.Kick:
                     embedBuilder.Title = "User Kicked";
                     embedBuilder.Color = new Color(0xE27526);
-                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id}")
-                                    .WithIconUrl(userToDisplay.GetAvatarUrl()))
-                                .WithTimestamp();
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
                 case EmbedType.Ban:
                     embedBuilder.Title = "User Banned";
                     embedBuilder.Color = new Color(0xE21F1F);
-                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id}")
-                                    .WithIconUrl(userToDisplay.GetAvatarUrl()))
-                                .WithTimestamp();
+                    WithFooter(embedBuilder, userToDisplay);
 
                     break;
                 case EmbedType.Warn:
@@ -91,19 +69,18 @@ namespace GuardianV4_Core
                 case EmbedType.Mute:
                     embedBuilder.Title = "User Muted";
                     embedBuilder.Color = new Color(0xDD4646);
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
                 case EmbedType.Unmute:
                     embedBuilder.Title = "User Unmuted";
                     embedBuilder.Color = new Color(0x8E2D2D);
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
                 case EmbedType.Connect:
                     embedBuilder.Title = "Bot Connected";
                     embedBuilder.Color = new Color(0xDBDBDB);
                     embedBuilder.WithDescription($"Guardian conected. I'm online!");
-                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                        .WithText($"Client ID: {(userToDisplay).Id}")
-                        .WithIconUrl(userToDisplay.GetAvatarUrl()));
-                    embedBuilder.WithTimestamp();
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
                 case EmbedType.Quote:
                     embedBuilder.Title = "Quote";
@@ -124,20 +101,23 @@ namespace GuardianV4_Core
                 case EmbedType.UsernameChange:
                     embedBuilder.Title = "User Changed Username";
                     embedBuilder.Color = new Color(0x38A4B5);
-                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id} changed username")
-                                    .WithIconUrl(userToDisplay.GetAvatarUrl()))
-                                .WithTimestamp();
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
                 case EmbedType.NicknameChange:
                     embedBuilder.Title = "User Changed Nickname";
                     embedBuilder.Color = new Color(0x47D0E5);
-                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id} changed nickname")
-                                    .WithIconUrl(userToDisplay.GetAvatarUrl()))
-                                .WithTimestamp();
+                    WithFooter(embedBuilder, userToDisplay);
                     break;
             }
+            return embedBuilder;
+        }
+
+        private static EmbedBuilder WithFooter(this EmbedBuilder embedBuilder, IUser userToDisplay)
+        {
+            embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
+                            .WithText($"User {userToDisplay.Id}")
+                            .WithIconUrl(userToDisplay.GetAvatarUrl()))
+                        .WithTimestamp();
             return embedBuilder;
         }
 
