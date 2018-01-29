@@ -2,10 +2,6 @@
 using Discord.Commands;
 using GuardianV4_Core.Extensions;
 using GuardianV4_Core.Services;
-using GuardianV4_Repository.Unit_of_Work;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GuardianV4_Core.Modules.Moderation

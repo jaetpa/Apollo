@@ -24,7 +24,9 @@ namespace GuardianV4_Core.Services
 
         private async Task UserJoined(SocketGuildUser arg)
         {
-            var userQueue = GetOrCreateUserQueue(arg);
+            var userQueue = GetOrCreateUserQueue(arg.Guild);
+            userQueue.Enqueue(arg);
+
             var welcomeChannel = arg.Guild.GetWelcomeChannel();
             var logChannel = arg.Guild.GetLogChannel();
 
