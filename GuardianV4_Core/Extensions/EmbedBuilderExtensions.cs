@@ -28,7 +28,7 @@ namespace GuardianV4_Core
                     embedBuilder.Title = "User Joined";
                     embedBuilder.Color = new Color(0x15C126);
                     embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id} joined the server")
+                                    .WithText($"User {userToDisplay.Id}")
                                     .WithIconUrl(userToDisplay.GetAvatarUrl()))
                                 .WithTimestamp();
                     break;
@@ -37,7 +37,7 @@ namespace GuardianV4_Core
                     embedBuilder.Title = "User Left";
                     embedBuilder.Color = new Color(0x0E7B19);
                     embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id} left the server")
+                                    .WithText($"User {userToDisplay.Id}")
                                     .WithIconUrl(userToDisplay.GetAvatarUrl()))
                                 .WithTimestamp();
                     break;
@@ -46,7 +46,7 @@ namespace GuardianV4_Core
                     embedBuilder.Title = "Lockdown Enabled";
                     embedBuilder.Color = new Color(0xE3C126);
                     embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id} enabled Lockdown mode")
+                                    .WithText($"User {userToDisplay.Id}")
                                     .WithIconUrl(userToDisplay.GetAvatarUrl()))
                                 .WithTimestamp();
                     break;
@@ -54,7 +54,7 @@ namespace GuardianV4_Core
                     embedBuilder.Title = "Lockdown Disabled";
                     embedBuilder.Color = new Color(0xB5991E);
                     embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id} disabled Lockdown mode")
+                                    .WithText($"User {userToDisplay.Id}")
                                     .WithIconUrl(userToDisplay.GetAvatarUrl()))
                                 .WithTimestamp();
 
@@ -63,7 +63,7 @@ namespace GuardianV4_Core
                     embedBuilder.Title = "User Kicked by Lockdown";
                     embedBuilder.Color = new Color(0xE24926);
                     embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id} blocked by Lockdown mode")
+                                    .WithText($"User {userToDisplay.Id}")
                                     .WithIconUrl(userToDisplay.GetAvatarUrl()))
                                 .WithTimestamp();
                     break;
@@ -71,7 +71,7 @@ namespace GuardianV4_Core
                     embedBuilder.Title = "User Kicked";
                     embedBuilder.Color = new Color(0xE27526);
                     embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id} was kicked from the server.")
+                                    .WithText($"User {userToDisplay.Id}")
                                     .WithIconUrl(userToDisplay.GetAvatarUrl()))
                                 .WithTimestamp();
                     break;
@@ -79,7 +79,7 @@ namespace GuardianV4_Core
                     embedBuilder.Title = "User Banned";
                     embedBuilder.Color = new Color(0xE21F1F);
                     embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                                    .WithText($"User {userToDisplay.Id} was banned from the server.")
+                                    .WithText($"User {userToDisplay.Id}")
                                     .WithIconUrl(userToDisplay.GetAvatarUrl()))
                                 .WithTimestamp();
 
