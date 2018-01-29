@@ -1,8 +1,11 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.WebSocket;
 using GuardianV4_Core.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GuardianV4_Core.Extensions
 {
@@ -94,6 +97,29 @@ namespace GuardianV4_Core.Extensions
                     return entity.Lockdown;
                 }
                 else return false;
+            }
+        }
+
+        public static async Task<IRole> GetOrCreateMutedRole(this SocketGuild guild)
+        {
+            var mutedRole = guild.Roles.FirstOrDefault(role => role.Name.ToUpper() == "MUTED");
+
+            if (mutedRole != null)
+            {
+                return mutedRole;
+            }
+            else
+            {
+                var restMutedRole = await guild.CreateRoleAsync("Muted", GuildPermissions.None, new Color(0xDD4646));
+                foreach (var channel in guild.Channels)
+                {
+                    await channel.AddPermissionOverwriteAsync(restMutedRole,
+                        new OverwritePermissions(
+                            speak: PermValue.Deny,
+                            sendMessages: PermValue.Deny,
+                            addReactions: PermValue.Deny));
+                }
+                return restMutedRole;
             }
         }
 
