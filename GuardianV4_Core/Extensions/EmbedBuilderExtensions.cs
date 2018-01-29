@@ -100,9 +100,10 @@ namespace GuardianV4_Core
                     embedBuilder.Title = "Bot Connected";
                     embedBuilder.Color = new Color(0xDBDBDB);
                     embedBuilder.WithDescription($"Guardian conected. I'm online!");
+                    embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
+                        .WithText($"Client ID: {(userToDisplay).Id}")
+                        .WithIconUrl(userToDisplay.GetAvatarUrl()));
                     embedBuilder.WithTimestamp();
-                    embedBuilder.WithFooter(
-                        (embedBuilder.Footer ?? new EmbedFooterBuilder()).WithIconUrl(userToDisplay.GetAvatarUrl()));
                     break;
                 case EmbedType.Quote:
                     embedBuilder.Title = "Quote";
