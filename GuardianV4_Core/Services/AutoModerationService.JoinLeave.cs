@@ -11,7 +11,7 @@ namespace GuardianV4_Core.Services
     public partial class AutoModerationService
     {
         DiscordSocketClient _client;
-        Dictionary<ulong, UserJoinQueue> _userQueues = new Dictionary<ulong, UserJoinQueue>();
+       public Dictionary<ulong, UserJoinQueue> UserQueues { get; } = new Dictionary<ulong, UserJoinQueue>();
 
         public AutoModerationService(DiscordSocketClient client)
         {
@@ -26,7 +26,7 @@ namespace GuardianV4_Core.Services
         {
             int recentJoins = 0;
             List<IUser> recentJoinUsers = new List<IUser>();
-            foreach (var user in _userQueues[arg.Id].Users)
+            foreach (var user in UserQueues[arg.Id].Users)
             {
                 if ((DateTimeOffset.Now - (user as SocketGuildUser).JoinedAt) < TimeSpan.FromSeconds(20))
                 {
@@ -85,14 +85,14 @@ namespace GuardianV4_Core.Services
 
         private UserJoinQueue GetOrCreateUserQueue(IGuild guild)
         {
-            if (_userQueues.ContainsKey(guild.Id))
+            if (UserQueues.ContainsKey(guild.Id))
             {
-                return _userQueues[guild.Id];
+                return UserQueues[guild.Id];
             }
             else
             {
-                _userQueues.Add(guild.Id, new UserJoinQueue());
-                return _userQueues[guild.Id];
+                UserQueues.Add(guild.Id, new UserJoinQueue());
+                return UserQueues[guild.Id];
             }
         }
 
