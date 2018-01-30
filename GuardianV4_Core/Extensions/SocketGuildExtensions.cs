@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using GuardianV4_Core.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,5 +124,18 @@ namespace GuardianV4_Core.Extensions
             }
         }
 
+        public static async Task<UserJoinQueue> GetUserJoinQueueAsync(this SocketGuild guild)
+        {
+            var autoModService = Program.Services.GetRequiredService<AutoModerationService>();
+
+            if (autoModService.UserQueues.ContainsKey(guild.Id))
+            {
+                return autoModService.UserQueues[guild.Id];
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
