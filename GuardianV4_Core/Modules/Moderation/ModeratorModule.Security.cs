@@ -3,13 +3,11 @@ using Discord.Commands;
 using Discord.WebSocket;
 using GuardianV4_Core.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GuardianV4_Core.Modules.Moderation
 {
-    public partial class ModeratorModule : ModuleBase<SocketCommandContext>
+    public partial class ModeratorModule
     {
         [Command("lockdown")]
         [Summary("Toggles lockdown mode where no new users can join the server.")]

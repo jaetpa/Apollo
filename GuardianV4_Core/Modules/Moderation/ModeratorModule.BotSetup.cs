@@ -1,13 +1,10 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GuardianV4_Core.Modules.Moderation
 {
-    public partial class ModeratorModule : ModuleBase<SocketCommandContext>
+    public partial class ModeratorModule
     {
         [Command("setmainchannel")]
         [Summary("Designates a text channel as the server's main/general channel.")]

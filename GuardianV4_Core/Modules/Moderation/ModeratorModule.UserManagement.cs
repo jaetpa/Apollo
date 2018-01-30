@@ -3,9 +3,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using GuardianV4_Core.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GuardianV4_Core.Modules.Moderation
@@ -53,6 +51,7 @@ namespace GuardianV4_Core.Modules.Moderation
         [Command("purgerecent")]
         [Summary("Bans a user from the server with an optional reason.")]
         [Remarks("!ban @florin_ro#9196")]
+        //TODO: test purging
         public async Task PurgeRecent(int purgetime = 0, [Remainder] string banFlag = "")
         {
             var queue = await Context.Guild.GetUserJoinQueueAsync();

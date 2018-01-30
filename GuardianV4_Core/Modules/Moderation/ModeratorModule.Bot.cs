@@ -1,30 +1,13 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.WebSocket;
 using GuardianV4_Core.Extensions;
-using GuardianV4_Core.Services;
 using System;
 using System.Threading.Tasks;
 
 namespace GuardianV4_Core.Modules.Moderation
 {
-    public partial class ModeratorModule : ModuleBase<SocketCommandContext>
+    public partial class ModeratorModule
     {
-        private DatabaseService _db;
-
-        public ModeratorModule(DatabaseService db)
-        {
-            _db = db;
-        }
-
-        [Command("test")]
-        public async Task Test()
-        {
-            var embedBuilder = new EmbedBuilder().WithEmbedType(EmbedType.UsernameChange, Context.User).WithTimestamp();
-            var embed = embedBuilder.Build();
-            await ReplyAsync("", embed: embed);
-        }
-
         [Command("setgame")]
         [Summary("Sets Guardian's game status.")]
         [Remarks("!setgame Cleaning tables")]
