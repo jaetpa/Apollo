@@ -54,7 +54,7 @@ namespace GuardianV4_Core.Modules.Moderation
             await channel.SendMessageAsync(text);
         }
 
-        [Command("bump")]
+        [Command("bump", RunMode = RunMode.Async)]
         [Summary("Reminds the owner to bump the server in 6 hours.")]
         [Remarks("!bump")]
         public async Task BumpReminder([Remainder] string text = "")
@@ -65,10 +65,10 @@ namespace GuardianV4_Core.Modules.Moderation
                 return;
             }
             var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
-            await new TaskFactory().StartNew(() =>
+            await new TaskFactory().StartNew(async () =>
             {
-                Task.Delay(TimeSpan.FromHours(6));
-                dmChannel.SendMessageAsync("It's time to bump the server! :alarm_clock:");
+                await Task.Delay(TimeSpan.FromHours(6));
+                await dmChannel.SendMessageAsync("It's time to bump the server! :alarm_clock:");
             });
         }
 
