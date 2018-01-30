@@ -91,13 +91,43 @@ namespace GuardianV4_Core.Modules.Moderation
             await user.RemoveRoleAsync(mutedRole);
 
             var embed = new EmbedBuilder()
-                .WithEmbedType(EmbedType.Mute, user)
-                .WithDescription($"User **{user}** was muted.\n" +
+                .WithEmbedType(EmbedType.Unmute, user)
+                .WithDescription($"User **{user}** was unmuted.\n" +
                     $"Issuer: **{Context.User}**\n")
                 .Build();
 
             await ReplyAsync("", embed: embed);
             await Context.Guild.GetLogChannel().SendMessageAsync("", embed: embed);
+        }
+
+        [Command("clear")]
+        [Summary("Deletes the last n messages in a channel, where n < 200")]
+        [Remarks("!unmute @florin_ro#9196")]
+        public async Task ClearMessages(int numToClear, [Remainder] string reason = null)
+        {
+            if (numToClear > 200)
+            {
+                await ReplyAsync("You can only clear 200 messages at a time.");
+                return;
+            }
+            else if (numToClear < 1)
+            {
+                await ReplyAsync("You must clear at least 1 message.");
+                return;
+            }
+
+            await Context.Message.DeleteAsync();
+            var messages = await Context.Channel.GetMessagesAsync(numToClear).FlattenAsync();
+            await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages.Reverse());
+
+            await ReplyAsync($"**{numToClear}** messages were cleared (excluding the command).");
+
+            var embed = new EmbedBuilder()
+                .WithEmbedType(EmbedType.General, Context.User)
+                .WithDescription($"User **{Context.User}** cleared **{numToClear}** messages in {(Context.Channel as SocketTextChannel).Mention}.")
+                .Build();
+
+            Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
         }
 
 
