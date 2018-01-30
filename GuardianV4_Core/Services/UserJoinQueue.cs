@@ -12,6 +12,8 @@ namespace GuardianV4_Core.Services
         private List<IUser> _users = new List<IUser>();
         private readonly int _maxSize = 50;
 
+        public IEnumerable<IUser> Users => _users.ToList();
+
         public void Enqueue(IUser user)
         {
             var oldUser = _users.FirstOrDefault(x => x.Id == user.Id);
