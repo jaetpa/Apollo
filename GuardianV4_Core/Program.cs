@@ -14,7 +14,7 @@ namespace GuardianV4_Core
 {
     class Program
     {
-        public IServiceProvider Services { get; private set; }
+        public static IServiceProvider Services { get; private set; }
         public ILogger Logger { get; private set; } = new LoggerFactory().CreateLogger("");
         public string Token
         {
