@@ -1,7 +1,9 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using GuardianV4_Core.Extensions;
 using GuardianV4_Core.Services;
+using System;
 using System.Threading.Tasks;
 
 namespace GuardianV4_Core.Modules.Moderation
@@ -39,5 +41,36 @@ namespace GuardianV4_Core.Modules.Moderation
             var channel = Context.Guild.GetMainChannel();
             await channel.SendMessageAsync(text);
         }
+
+        [Command("say")]
+        [Summary("Posts a message to a specified channel via Guardian.")]
+        [Remarks("!say #general I'm always watching")]
+        public async Task SendMessageToChannel(SocketTextChannel channel = null, [Remainder] string text = "")
+        {
+            if (channel == null)
+            {
+                channel = Context.Channel as SocketTextChannel;
+            }
+            await channel.SendMessageAsync(text);
+        }
+
+        [Command("bump")]
+        [Summary("Reminds the owner to bump the server in 6 hours.")]
+        [Remarks("!bump")]
+        public async Task BumpReminder([Remainder] string text = "")
+        {
+            if (Context.User.Id != Context.Guild.OwnerId)
+            {
+                await ReplyAsync("Only the owner can use this command.");
+                return;
+            }
+            var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
+            await new TaskFactory().StartNew(() =>
+            {
+                Task.Delay(TimeSpan.FromHours(6));
+                dmChannel.SendMessageAsync("It's time to bump the server! :alarm_clock:");
+            });
+        }
+
     }
 }
