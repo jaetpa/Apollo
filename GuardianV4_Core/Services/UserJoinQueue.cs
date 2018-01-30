@@ -50,14 +50,14 @@ namespace GuardianV4_Core.Services
             }
         }
 
-        public IEnumerator GetEnumerator()
-        {
-            return _users.GetEnumerator();
-        }
-
-        IEnumerator<IUser> IEnumerable<IUser>.GetEnumerator()
+        public IEnumerator<IUser> GetEnumerator()
         {
             return ((IEnumerable<IUser>)_users).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }
