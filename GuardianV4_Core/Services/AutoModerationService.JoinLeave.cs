@@ -18,8 +18,39 @@ namespace GuardianV4_Core.Services
             _client = client;
 
             _client.UserJoined += UserJoined;
+            _client.UserJoined += AntiRaid;
             _client.UserLeft += UserLeft;
+        }
 
+        private async Task AntiRaid(SocketGuildUser arg)
+        {
+            int recentJoins = 0;
+            List<IUser> recentJoinUsers = new List<IUser>();
+            foreach (var user in _userQueues[arg.Id].Users)
+            {
+                if ((DateTimeOffset.Now - (user as SocketGuildUser).JoinedAt) < TimeSpan.FromSeconds(20))
+                {
+                    recentJoins++;
+                    recentJoinUsers.Add(user);
+                }
+            }
+
+            if (recentJoins >= 3)
+            {
+                var mutedRole = await arg.Guild.GetOrCreateMutedRole();
+
+                foreach (var user in recentJoinUsers)
+                {
+                    await (user as SocketGuildUser).AddRoleAsync(mutedRole);
+                }
+
+                var embed = new EmbedBuilder()
+                    .WithEmbedType(EmbedType.General, _client.CurrentUser)
+                    .WithDescription($"Anti-raid automatically muted {recentJoins} users that joined in quick succession.")
+                    .Build();
+
+                await arg.Guild.GetLogChannel().SendMessageAsync("", embed: embed);
+            }
         }
 
         private async Task UserJoined(SocketGuildUser arg)
