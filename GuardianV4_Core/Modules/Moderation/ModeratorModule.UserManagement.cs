@@ -100,6 +100,57 @@ namespace GuardianV4_Core.Modules.Moderation
             await Context.Guild.GetLogChannel().SendMessageAsync("", embed: embed);
         }
 
+        [Command("tmute", RunMode = RunMode.Async)]
+        [Summary("Mutes a user for a specified amount of time in minutes. Set to 5 minutes by default.")]
+        [Remarks("!unmute @florin_ro#9196")]
+        public async Task TimedMute(SocketGuildUser user, int muteTime = 5, [Remainder] string reason = null)
+        {
+            var mutedRole = await Context.Guild.GetOrCreateMutedRole();
+
+            if (user.Roles.FirstOrDefault(role => role.Id == mutedRole.Id) != null)
+            {
+                await ReplyAsync($"**{user}** is already muted.");
+                return;
+            }
+            string msg = "";
+
+            if (muteTime < 1)
+            {
+                await ReplyAsync("You must mute for at least 1 minute.");
+                return;
+            }
+            else if (muteTime > 5000)
+            {
+                muteTime = 5000;
+                msg = "Oh come on, 5000 minutes is enough.";
+            }
+
+            await user.AddRoleAsync(mutedRole);
+
+            var muteEmbed = new EmbedBuilder()
+                .WithEmbedType(EmbedType.Mute, user)
+                .WithDescription($"User **{user}** was muted for **{muteTime}** minutes.\n" +
+                    $"Issuer: **{Context.User}**\n" +
+                    $"Reason: {reason ?? "none specified"}")
+                .Build();
+
+            await ReplyAsync(msg, embed: muteEmbed);
+            await Context.Guild.GetLogChannel().SendMessageAsync("", embed: muteEmbed);
+
+            await Task.Delay(TimeSpan.FromMinutes(muteTime));
+
+            await user.RemoveRoleAsync(mutedRole);
+
+            var unmuteEmbed = new EmbedBuilder()
+                .WithEmbedType(EmbedType.Unmute, user)
+                .WithDescription($"User **{user}** was unmuted after **{muteTime}** minutes.\n")
+                .Build();
+
+            await ReplyAsync("", embed: unmuteEmbed);
+            await Context.Guild.GetLogChannel().SendMessageAsync("", embed: unmuteEmbed);
+
+        }
+
         [Command("clear")]
         [Summary("Deletes the last n messages in a channel, where n < 200")]
         [Remarks("!unmute @florin_ro#9196")]
@@ -129,6 +180,15 @@ namespace GuardianV4_Core.Modules.Moderation
 
             Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
         }
+
+        [Command("rename")]
+        [Summary("Changes a user's nickname.")]
+        [Remarks("!rename @florin_ro#9196 scrub")]
+        public async Task RenameUser(SocketGuildUser user, string newNickname)
+        {
+            await user.ModifyAsync(x => x.Nickname = new String(newNickname.Take(32).ToArray()));
+        }
+
 
 
     }
