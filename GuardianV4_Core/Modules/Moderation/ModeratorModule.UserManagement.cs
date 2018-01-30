@@ -50,6 +50,53 @@ namespace GuardianV4_Core.Modules.Moderation
 
         }
 
+        [Command("purgerecent")]
+        [Summary("Bans a user from the server with an optional reason.")]
+        [Remarks("!ban @florin_ro#9196")]
+        public async Task PurgeRecent(int purgetime = 0, [Remainder] string banFlag = "")
+        {
+            var queue = await Context.Guild.GetUserJoinQueueAsync();
+            if (queue == null)
+            {
+                await ReplyAsync($"There is no join queue to purge users from.");
+                return;
+            }
+
+            int purgeCount = 0;
+
+            foreach (var user in queue)
+            {
+                var guildUser = user as SocketGuildUser;
+                
+                if ((DateTimeOffset.Now - guildUser.JoinedAt) < TimeSpan.FromMinutes(purgetime))
+                {
+                    if (banFlag == "b" || banFlag == "B")
+                    {
+                        await Context.Guild.AddBanAsync(guildUser);
+                    }
+                    else
+                    {
+                        await guildUser.KickAsync($"Purged by {Context.User}");
+                    }
+                    purgeCount++;
+                }
+            }
+
+            string banString = "";
+            if (banFlag == "b" || banFlag == "B")
+            {
+                banString = "They were also banned.";
+            }
+            var embed = new EmbedBuilder()
+                .WithEmbedType(EmbedType.General, Context.User)
+                .WithDescription($"{Context.User} purged {purgeCount} that joined in the last {purgetime} minutes. {banString}")
+                .Build();
+
+            await ReplyAsync("", embed: embed);
+            await Context.Guild.GetLogChannel().SendMessageAsync("", embed: embed);
+
+        }
+
         [Command("mute")]
         [Summary("Mutes a user. They will not be able to speak in text or voice channels.")]
         [Remarks("!mute @florin_ro#9196")]
