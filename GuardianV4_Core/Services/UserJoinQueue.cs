@@ -7,7 +7,7 @@ using System.Text;
 
 namespace GuardianV4_Core.Services
 {
-    public class UserJoinQueue : IEnumerable
+    public class UserJoinQueue : IEnumerable<IUser>
     {
         private List<IUser> _users = new List<IUser>();
         private readonly int _maxSize = 50;
@@ -53,6 +53,11 @@ namespace GuardianV4_Core.Services
         public IEnumerator GetEnumerator()
         {
             return _users.GetEnumerator();
+        }
+
+        IEnumerator<IUser> IEnumerable<IUser>.GetEnumerator()
+        {
+            return ((IEnumerable<IUser>)_users).GetEnumerator();
         }
     }
 }
