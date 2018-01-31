@@ -11,6 +11,8 @@ namespace GuardianV4_Data.Contexts
     {
         public DbSet<ServerEntity> Servers { get; set; }
         public DbSet<QuoteEntity> Quotes { get; set; }
+        public DbSet<CustomCommandEntity> CustomCommands { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
