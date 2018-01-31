@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Apollo_Core</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="tokens.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Addons.MicrosoftLogging" Version="2.0.0-beta-00005" />
+    <PackageReference Include="Discord.Net" Version="2.0.0-beta-00880" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Apollo_Repository\Apollo_Repository.csproj" />
+  </ItemGroup>
+
+</Project>
