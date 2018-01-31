@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using GuardianV4_Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,9 @@ namespace GuardianV4_Core
         Quote,
         VcJoin, VcSwitch, VcLeave,
         UsernameChange, NicknameChange,
-        General
+        General,
+        MessageEdited, MessageDeleted,
+        Stream
     }
     public static class EmbedMessageExtensions
     {
@@ -101,6 +104,16 @@ namespace GuardianV4_Core
                     embedBuilder.Color = new Color(0xDBDBDB);
                     break;
 
+                case EmbedType.MessageEdited:
+                    embedBuilder.Title = "Message Edited";
+                    embedBuilder.Color = new Color(0x96DDF7);
+                    break;
+
+                case EmbedType.MessageDeleted:
+                    embedBuilder.Title = "Message Deleted";
+                    embedBuilder.Color = new Color(0x59CDF7);
+                    break;
+
                 case EmbedType.VcSwitch:
                     embedBuilder.Title = "User Switched Voice Channel";
                     embedBuilder.Color = new Color(0xADADAD);
@@ -123,6 +136,12 @@ namespace GuardianV4_Core
                     WithFooter(embedBuilder, userToDisplay);
                     break;
 
+                case EmbedType.Stream:
+                    embedBuilder.Title = "Stream started";
+                    embedBuilder.Color = new Color(0x6441A4);
+                    WithFooter(embedBuilder, userToDisplay);
+                    break;
+
                 case EmbedType.General:
                     embedBuilder.Title = "Log Event";
                     embedBuilder.Color = new Color(0xDBDBDB);
@@ -136,7 +155,16 @@ namespace GuardianV4_Core
         private static EmbedBuilder WithFooter(this EmbedBuilder embedBuilder, IUser userToDisplay)
         {
             embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
-                            .WithText($"User {userToDisplay.Id}")
+                            .WithText($"User {userToDisplay.Id} | ")
+                            .WithIconUrl(userToDisplay.GetAvatarUrl()))
+                        .WithTimestamp();
+            return embedBuilder;
+        }
+
+        public static EmbedBuilder WithMessageLogFooter(this EmbedBuilder embedBuilder, IUser userToDisplay, AutoModerationService.MessageObject message)
+        {
+            embedBuilder.WithFooter((embedBuilder.Footer ?? new EmbedFooterBuilder())
+                            .WithText($"User {userToDisplay.Id} | Message ID {message.Id}")
                             .WithIconUrl(userToDisplay.GetAvatarUrl()))
                         .WithTimestamp();
             return embedBuilder;
@@ -149,7 +177,7 @@ namespace GuardianV4_Core
                 embedBuilder.WithFooter(new EmbedFooterBuilder());
             }
 
-            embedBuilder.Footer.Text += $" | {DateTimeOffset.Now:ddd dd MMM, yyyy HH:mm:ss}";
+            embedBuilder.Footer.Text += $"{DateTimeOffset.Now:ddd dd MMM, yyyy HH:mm:ss}";
 
             return embedBuilder;
         }

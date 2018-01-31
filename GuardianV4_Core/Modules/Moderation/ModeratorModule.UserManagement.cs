@@ -88,7 +88,7 @@ namespace GuardianV4_Core.Modules.Moderation
             }
             var embed = new EmbedBuilder()
                 .WithEmbedType(EmbedType.General, Context.User)
-                .WithDescription($"{Context.User} purged {purgeCount} that joined in the last {purgetime} minutes. {banString}")
+                .WithDescription($"{Context.User} purged **{purgeCount}** users that joined in the last {purgetime} minutes. {banString}")
                 .Build();
 
             await ReplyAsync("", embed: embed);

@@ -65,7 +65,7 @@ namespace GuardianV4_Core.Services
             {
                 var embed = new EmbedBuilder()
                     .WithEmbedType(EmbedType.Join, arg)
-                    .WithDescription($"User **{arg}** joined the server.")
+                    .WithDescription($"User **{arg}** joined the server. Account created **{(int)((DateTimeOffset.Now - arg.CreatedAt).TotalDays)}** days ago.")
                     .Build();
                 await logChannel.SendMessageAsync("", embed: embed);
             }
@@ -89,7 +89,7 @@ namespace GuardianV4_Core.Services
             user.KickAsync("Joined during Lockdown mode.");
             var embed = new EmbedBuilder()
                 .WithEmbedType(EmbedType.LockdownKick, user)
-                .WithDescription($"User **{user}** was automatically kicked by Lockdown mode.")
+                .WithDescription($"User **{user}** was automatically kicked by Lockdown mode. Account created {(int)(DateTimeOffset.Now - user.CreatedAt).TotalDays} days ago.")
                 .Build();
 
             user.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
@@ -99,21 +99,31 @@ namespace GuardianV4_Core.Services
         {
             //TODO: Stop leave messages for people kicked during lockdown
             var welcomeChannel = arg.Guild.GetWelcomeChannel();
-            var logChannel = arg.Guild.GetLogChannel();
 
-            if (welcomeChannel != null)
+            using (var uow = _db.UnitOfWork)
             {
-                await welcomeChannel.SendMessageAsync($"User **{arg.Mention}** left the server.");
-                //TODO: Add time since join
-            }
-            if (logChannel != null)
-            {
-                var embed = new EmbedBuilder()
-                    .WithEmbedType(EmbedType.Leave, arg)
-                    .WithDescription($"User **{arg}** left the server.")
-                    .Build();
-                await logChannel.SendMessageAsync("", embed: embed);
+                var server = uow.Servers.Find(arg.Guild.Id);
+                if (server == null)
+                {
+                    return;
+                }
+                if (arg.JoinedAt < server.LockdownTime)
+                {
+                    if (welcomeChannel != null)
+                    {
+                        await welcomeChannel.SendMessageAsync($"User **{arg.Mention}** left the server.");
+                        var logChannel = arg.Guild.GetLogChannel();
+                        if (logChannel != null)
+                        {
+                            var embed = new EmbedBuilder()
+                                .WithEmbedType(EmbedType.Leave, arg)
+                                .WithDescription($"User **{arg}** left the server.")
+                                .Build();
+                            await logChannel.SendMessageAsync("", embed: embed);
 
+                        }
+                    }
+                }
             }
         }
     }

@@ -58,11 +58,15 @@ namespace GuardianV4_Data.Migrations
 
                     b.Property<bool>("Lockdown");
 
+                    b.Property<DateTimeOffset>("LockdownTime");
+
                     b.Property<ulong?>("LogChannelId");
 
                     b.Property<ulong?>("MainChannelId");
 
                     b.Property<ulong?>("StaffChannelId");
+
+                    b.Property<ulong?>("StreamTextChannelId");
 
                     b.Property<ulong?>("VoiceTextChannelId");
 

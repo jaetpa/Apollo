@@ -25,6 +25,10 @@ namespace GuardianV4_Core.Modules.Moderation
 
                 uow.Servers.Update(entity);
                 entity.Lockdown = !entity.Lockdown;
+                if (entity.Lockdown)
+                {
+                    entity.LockdownTime = DateTimeOffset.Now;
+                }
                 uow.SaveChanges();
 
                 if (entity.Lockdown)

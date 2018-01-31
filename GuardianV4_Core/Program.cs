@@ -39,7 +39,7 @@ namespace GuardianV4_Core
         {
             _config = BuildConfig();
 
-            DiscordSocketConfig socketConfig = new DiscordSocketConfig { AlwaysDownloadUsers = true };
+            DiscordSocketConfig socketConfig = new DiscordSocketConfig { AlwaysDownloadUsers = true, MessageCacheSize = 1000 };
             _client = new DiscordSocketClient(socketConfig);
             await _client.LoginAsync(TokenType.Bot, Token);
             await _client.StartAsync();
@@ -51,6 +51,7 @@ namespace GuardianV4_Core
             Services.GetRequiredService<GuildSetupService>();
             Services.GetRequiredService<LogChannelService>();
             Services.GetRequiredService<AutoModerationService>();
+            Services.GetRequiredService<StreamNotificationService>();
 
             await Task.Delay(-1);
         }
@@ -70,6 +71,7 @@ namespace GuardianV4_Core
             .AddSingleton<LogChannelService>()
             .AddSingleton<AutoModerationService>()
             .AddSingleton<ModeratorModule>()
+            .AddSingleton<StreamNotificationService>()
             .BuildServiceProvider();
         }
 
