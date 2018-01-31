@@ -12,7 +12,7 @@ namespace GuardianV4_Core.Modules.Moderation
     public partial class ModeratorModule
     {
         [Command("addcommand")]
-        public async Task AddCommand(string commandName, string reply)
+        public async Task AddCommand(string commandName, [Remainder]string reply)
         {
             using (var uow = _db.UnitOfWork)
             {
@@ -59,7 +59,7 @@ namespace GuardianV4_Core.Modules.Moderation
         }
 
         [Command("updatecommand")]
-        public async Task RemoveCommand(string commandName, string reply)
+        public async Task RemoveCommand(string commandName, [Remainder] string reply)
         {
             using (var uow = _db.UnitOfWork)
             {

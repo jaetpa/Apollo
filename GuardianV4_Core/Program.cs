@@ -52,6 +52,7 @@ namespace GuardianV4_Core
             Services.GetRequiredService<LogChannelService>();
             Services.GetRequiredService<AutoModerationService>();
             Services.GetRequiredService<StreamNotificationService>();
+            Services.GetRequiredService<CustomCommandService>();
 
             await Task.Delay(-1);
         }
@@ -72,6 +73,8 @@ namespace GuardianV4_Core
             .AddSingleton<AutoModerationService>()
             .AddSingleton<ModeratorModule>()
             .AddSingleton<StreamNotificationService>()
+            .AddSingleton<CustomCommandService>()
+
             .BuildServiceProvider();
         }
 
