@@ -10,9 +10,12 @@ namespace GuardianV4_Repository.Unit_of_Work
     {
         ServerRepository _servers;
         QuoteRepository _quotes;
+        CustomCommandRepository _customCommands;
         public DiscordBotContext Context { get; }
         public ServerRepository Servers => _servers ?? (_servers = new ServerRepository(Context));
         public QuoteRepository Quotes => _quotes ?? (_quotes = new QuoteRepository(Context));
+        public CustomCommandRepository CustomCommands => _customCommands ?? (_customCommands = new CustomCommandRepository(Context));
+
 
         public UnitOfWork(DiscordBotContext context)
         {
