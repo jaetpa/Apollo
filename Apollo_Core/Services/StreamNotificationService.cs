@@ -21,12 +21,12 @@ namespace Apollo_Core.Services
 
         private async Task StreamNotification(SocketUser arg1, SocketUser arg2)
         {
-            if (arg2.Activity == null)
+            if (arg2.Game?.StreamType == StreamType.NotStreaming)
             {
                 return;
             }
-            if (arg1.Activity?.Type != ActivityType.Streaming
-                && arg2.Activity.Type == ActivityType.Streaming)
+            if ((arg1.Game?.StreamType == StreamType.NotStreaming)
+                && (arg1.Game?.StreamType == StreamType.Twitch))
             {
                 using (var uow = _db.UnitOfWork)
                 {
@@ -41,7 +41,7 @@ namespace Apollo_Core.Services
 
                         var embed = new EmbedBuilder()
                             .WithEmbedType(EmbedType.Stream, arg2)
-                            .WithDescription($"User **{arg2}** started streaming **{arg2.Activity.Name}** on Twitch!")
+                            .WithDescription($"User **{arg2}** started streaming **{arg2.Game?.Name}** on Twitch!")
                             .Build();
 
                         await channel.SendMessageAsync("", embed: embed);

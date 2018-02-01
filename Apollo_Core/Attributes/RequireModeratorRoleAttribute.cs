@@ -19,7 +19,7 @@ namespace Apollo_Core.Attributes
         //    _db = db;
         //}
 
-        public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
+        public override Task<PreconditionResult> CheckPermissions(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
             if (context.User is SocketGuildUser user && user.GuildPermissions.BanMembers)
             {
