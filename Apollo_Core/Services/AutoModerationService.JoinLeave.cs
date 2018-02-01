@@ -57,7 +57,7 @@ namespace DiscordBot_Core.Services
 
             if (welcomeChannel != null)
             {
-                await welcomeChannel.SendMessageAsync($"User **{arg.Mention}** joined the server.");
+                await welcomeChannel.SendMessageAsync($"**{arg.Mention}** gets on stage and takes the mic.");
                 //TODO: Add time since account creation
                 //TODO: Add join card
             }
@@ -107,24 +107,26 @@ namespace DiscordBot_Core.Services
                 {
                     return;
                 }
-                if (arg.JoinedAt < server.LockdownTime)
+                if (arg.Guild.LockdownEnabled() && arg.JoinedAt > server.LockdownTime)
                 {
-                    if (welcomeChannel != null)
+                    return;
+                }
+                if (welcomeChannel != null)
+                {
+                    await welcomeChannel.SendMessageAsync($"**{arg.Mention}** drops the mic and gets off the stage.");
+                    var logChannel = arg.Guild.GetLogChannel();
+                    if (logChannel != null)
                     {
-                        await welcomeChannel.SendMessageAsync($"User **{arg.Mention}** left the server.");
-                        var logChannel = arg.Guild.GetLogChannel();
-                        if (logChannel != null)
-                        {
-                            var embed = new EmbedBuilder()
-                                .WithEmbedType(EmbedType.Leave, arg)
-                                .WithDescription($"User **{arg}** left the server.")
-                                .Build();
-                            await logChannel.SendMessageAsync("", embed: embed);
+                        var embed = new EmbedBuilder()
+                            .WithEmbedType(EmbedType.Leave, arg)
+                            .WithDescription($"User **{arg}** left the server.")
+                            .Build();
+                        await logChannel.SendMessageAsync("", embed: embed);
 
-                        }
                     }
                 }
             }
         }
     }
 }
+
