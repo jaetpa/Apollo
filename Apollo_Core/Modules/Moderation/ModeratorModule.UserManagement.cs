@@ -214,7 +214,7 @@ namespace Apollo_Core.Modules.Moderation
             }
 
             await Context.Message.DeleteAsync();
-            var messages = await Context.Channel.GetMessagesAsync(numToClear).FlattenAsync();
+            var messages = await Context.Channel.GetMessagesAsync(numToClear).Flatten();
             await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages.Reverse());
 
             await ReplyAsync($"**{numToClear}** messages were cleared (excluding the command).");
