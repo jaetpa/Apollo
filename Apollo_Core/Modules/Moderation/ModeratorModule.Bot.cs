@@ -50,6 +50,8 @@ namespace DiscordBot_Core.Modules.Moderation
             var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
             await new TaskFactory().StartNew(async () =>
             {
+                await ReplyAsync("I'll remind you to bump in 6 hours.");
+                await dmChannel.SendMessageAsync("6 hours and counting!");
                 await Task.Delay(TimeSpan.FromHours(6));
                 await dmChannel.SendMessageAsync("It's time to bump the server! :alarm_clock:");
             });

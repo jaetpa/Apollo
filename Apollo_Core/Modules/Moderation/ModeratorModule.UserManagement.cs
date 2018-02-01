@@ -25,7 +25,7 @@ namespace DiscordBot_Core.Modules.Moderation
                 .Build();
 
             await ReplyAsync("", embed: embed);
-            await Context.Guild.GetLogChannel().SendMessageAsync("", embed: embed);
+            await Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
 
         }
 
@@ -43,8 +43,9 @@ namespace DiscordBot_Core.Modules.Moderation
                 $"Reason: {reason ?? "none specified"}")
                 .Build();
 
+            await Context.Guild.GetMainChannel()?.SendMessageAsync($"**{user}** gets booed at and falls off stage.");
             await ReplyAsync("", embed: embed);
-            await Context.Guild.GetLogChannel().SendMessageAsync("", embed: embed);
+            await Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
 
         }
 
@@ -92,7 +93,7 @@ namespace DiscordBot_Core.Modules.Moderation
                 .Build();
 
             await ReplyAsync("", embed: embed);
-            await Context.Guild.GetLogChannel().SendMessageAsync("", embed: embed);
+            await Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
 
         }
 
@@ -119,7 +120,7 @@ namespace DiscordBot_Core.Modules.Moderation
                 .Build();
 
             await ReplyAsync("", embed: embed);
-            await Context.Guild.GetLogChannel().SendMessageAsync("", embed: embed);
+            await Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
         }
 
         [Command("unmute")]
@@ -143,7 +144,7 @@ namespace DiscordBot_Core.Modules.Moderation
                 .Build();
 
             await ReplyAsync("", embed: embed);
-            await Context.Guild.GetLogChannel().SendMessageAsync("", embed: embed);
+            await Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
         }
 
         [Command("tmute", RunMode = RunMode.Async)]
@@ -181,7 +182,7 @@ namespace DiscordBot_Core.Modules.Moderation
                 .Build();
 
             await ReplyAsync(msg, embed: muteEmbed);
-            await Context.Guild.GetLogChannel().SendMessageAsync("", embed: muteEmbed);
+            await Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: muteEmbed);
 
             await Task.Delay(TimeSpan.FromMinutes(muteTime));
 
@@ -193,7 +194,7 @@ namespace DiscordBot_Core.Modules.Moderation
                 .Build();
 
             await ReplyAsync("", embed: unmuteEmbed);
-            await Context.Guild.GetLogChannel().SendMessageAsync("", embed: unmuteEmbed);
+            await Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: unmuteEmbed);
 
         }
 
