@@ -1,2 +1,2 @@
-# GuardianV4
+# Apollo
 A multipurpose Discord bot.
