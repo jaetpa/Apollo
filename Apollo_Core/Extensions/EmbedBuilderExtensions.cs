@@ -90,7 +90,7 @@ namespace DiscordBot_Core
                 case EmbedType.Connect:
                     embedBuilder.Title = "Bot Connected";
                     embedBuilder.Color = new Color(0xDBDBDB);
-                    embedBuilder.WithDescription($"Apollo conected. I'm online!");
+                    embedBuilder.WithDescription($"Apollo connected. I'm online!");
                     WithFooter(embedBuilder, userToDisplay);
                     break;
 
