@@ -96,7 +96,7 @@ namespace Apollo_Core.Services
 
             var embed = new EmbedBuilder()
                 .WithEmbedType(EmbedType.MessageEdited, arg2.Author)
-                .WithDescription($"**Message edited in {(arg2.Channel as SocketTextChannel).Mention} (sent at {msg.Timestamp:dd-MMM-yyyy HH:mm:ss})**")
+                .WithDescription($"**Message edited by {arg2.Author} in {(arg2.Channel as SocketTextChannel).Mention} (sent at {msg.Timestamp:dd-MMM-yyyy HH:mm:ss})**")
                 .AddField("Old content", msg.Content + beforeAttachments)
                 .AddField("New content", arg2.Content + afterAttachments)
                 .WithMessageLogFooter(arg2.Author, msg)
@@ -132,19 +132,17 @@ namespace Apollo_Core.Services
                 return;
             }
 
-            string beforeAttachments = "\n";
-            string afterAttachments = "\n";
-
+            string attachments = "\n";
 
             foreach (var attachment in msg.Attachments)
             {
-                beforeAttachments += $"{attachment.Url}\n";
+                attachments += $"{attachment.Url}\n";
             }
 
             var embed = new EmbedBuilder()
                 .WithEmbedType(EmbedType.MessageDeleted, msg.Author)
-                .WithDescription($"**Message deleted in {(msg.Channel as SocketTextChannel).Mention} (sent at {msg.Timestamp:dd-MMM-yyyy HH:mm:ss})**")
-                .AddField("Content", msg.Content + beforeAttachments)
+                .WithDescription($"**Message deleted by {msg.Author} in {(msg.Channel as SocketTextChannel).Mention} (sent at {msg.Timestamp:dd-MMM-yyyy HH:mm:ss})**")
+                .AddField("Content", msg.Content + attachments)
                 .WithMessageLogFooter(msg.Author, msg)
                 .Build();
 
