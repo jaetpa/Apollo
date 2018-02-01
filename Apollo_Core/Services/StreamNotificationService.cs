@@ -26,7 +26,7 @@ namespace DiscordBot_Core.Services
                 return;
             }
             if ((arg1.Game?.StreamType == StreamType.NotStreaming)
-                && (arg1.Game?.StreamType == StreamType.Twitch))
+                && (arg2.Game?.StreamType == StreamType.Twitch))
             {
                 using (var uow = _db.UnitOfWork)
                 {
