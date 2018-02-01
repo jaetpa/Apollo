@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Apollo_Data.Migrations
+namespace DiscordBot_Data.Migrations
 {
     public partial class kickeduserentity_serverId : Migration
     {

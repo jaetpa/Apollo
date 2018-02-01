@@ -1,11 +1,11 @@
-﻿using Apollo_Data.Entities;
+﻿using DiscordBot_Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Apollo_Data.Contexts
+namespace DiscordBot_Data.Contexts
 {
     public class DiscordBotContext:DbContext
     {

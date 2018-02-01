@@ -4,7 +4,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
-namespace Apollo_Core.Services
+namespace DiscordBot_Core.Services
 {
     public class LogService
     {

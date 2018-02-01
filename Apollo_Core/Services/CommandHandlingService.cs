@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Apollo_Core.Services
+namespace DiscordBot_Core.Services
 {
     class CommandHandlingService
     {

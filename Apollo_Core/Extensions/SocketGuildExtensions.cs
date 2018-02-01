@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Apollo_Core.Services;
+using DiscordBot_Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Apollo_Core.Extensions
+namespace DiscordBot_Core.Extensions
 {
     public static class SocketGuildExtensions
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Apollo_Core.Services
+namespace DiscordBot_Core.Services
 {
     public class UserJoinQueue : IEnumerable<IUser>
     {

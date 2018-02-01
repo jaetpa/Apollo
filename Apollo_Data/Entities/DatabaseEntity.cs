@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-namespace Apollo_Data.Entities
+namespace DiscordBot_Data.Entities
 {
     public class DatabaseEntity
     {

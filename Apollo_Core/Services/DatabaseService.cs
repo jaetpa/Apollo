@@ -1,10 +1,10 @@
-﻿using Apollo_Data.Contexts;
-using Apollo_Repository.Unit_of_Work;
+﻿using DiscordBot_Data.Contexts;
+using DiscordBot_Repository.Unit_of_Work;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Apollo_Core.Services
+namespace DiscordBot_Core.Services
 {
     public class DatabaseService
     {

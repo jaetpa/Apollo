@@ -1,13 +1,13 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
-using Apollo_Core.Extensions;
-using Apollo_Core.Services;
+using DiscordBot_Core.Extensions;
+using DiscordBot_Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Apollo_Core.Attributes
+namespace DiscordBot_Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     class RequireModeratorRoleAttribute : PreconditionAttribute

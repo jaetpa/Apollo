@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Apollo_Repository
+namespace DiscordBot_Repository
 {
     public interface IRepository<T> where T : class
     {

@@ -4,13 +4,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Discord.Commands;
-using Apollo_Core.Services;
+using DiscordBot_Core.Services;
 using Discord.WebSocket;
 using System.IO;
 using Discord;
-using Apollo_Core.Modules.Moderation;
+using DiscordBot_Core.Modules.Moderation;
 
-namespace Apollo_Core
+namespace DiscordBot_Core
 {
     class Program
     {

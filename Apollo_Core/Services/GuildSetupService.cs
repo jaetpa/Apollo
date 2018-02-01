@@ -1,12 +1,12 @@
 ﻿using Discord.WebSocket;
-using Apollo_Core.Extensions;
-using Apollo_Core.Modules.Moderation;
+using DiscordBot_Core.Extensions;
+using DiscordBot_Core.Modules.Moderation;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Apollo_Core.Services
+namespace DiscordBot_Core.Services
 {
     public class GuildSetupService
     {
@@ -29,7 +29,7 @@ namespace Apollo_Core.Services
 
                 if (entity == null)
                 {
-                    uow.Servers.Add(new Apollo_Data.Entities.ServerEntity { Id = arg.Id, GuildName = arg.Name });
+                    uow.Servers.Add(new DiscordBot_Data.Entities.ServerEntity { Id = arg.Id, GuildName = arg.Name });
                     uow.SaveChanges();
                 }
                 else if (entity.GuildName != arg.Name)

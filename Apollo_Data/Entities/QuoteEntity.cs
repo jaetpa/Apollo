@@ -1,4 +1,4 @@
-﻿namespace Apollo_Data.Entities
+﻿namespace DiscordBot_Data.Entities
 {
     public class QuoteEntity : DatabaseEntity
     {

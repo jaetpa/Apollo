@@ -2,7 +2,7 @@
 using Discord.WebSocket;
 using System.Threading.Tasks;
 
-namespace Apollo_Core.Modules.Moderation
+namespace DiscordBot_Core.Modules.Moderation
 {
     public partial class ModeratorModule
     {

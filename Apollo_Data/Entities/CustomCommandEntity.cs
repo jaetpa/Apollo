@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Apollo_Data.Entities
+namespace DiscordBot_Data.Entities
 {
     public class CustomCommandEntity : DatabaseEntity
     {

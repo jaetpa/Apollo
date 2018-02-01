@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Apollo_Core.Services;
+using DiscordBot_Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Apollo_Core
+namespace DiscordBot_Core
 {
     public enum EmbedType
     {

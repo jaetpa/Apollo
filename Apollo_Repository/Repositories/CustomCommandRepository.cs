@@ -1,11 +1,11 @@
-﻿using Apollo_Data.Contexts;
-using Apollo_Data.Entities;
+﻿using DiscordBot_Data.Contexts;
+using DiscordBot_Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace Apollo_Repository.Repositories
+namespace DiscordBot_Repository.Repositories
 {
     public class CustomCommandRepository : IRepository<CustomCommandEntity>
     {

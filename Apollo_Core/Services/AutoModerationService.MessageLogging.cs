@@ -1,13 +1,13 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Apollo_Core.Extensions;
+using DiscordBot_Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Apollo_Core.Services
+namespace DiscordBot_Core.Services
 {
     public partial class AutoModerationService
     {

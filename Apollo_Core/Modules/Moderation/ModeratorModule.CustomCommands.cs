@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
-using Apollo_Core.Services;
+using DiscordBot_Core.Services;
 using Newtonsoft.Json;
 
-namespace Apollo_Core.Modules.Moderation
+namespace DiscordBot_Core.Modules.Moderation
 {
     public partial class ModeratorModule
     {
@@ -24,7 +24,7 @@ namespace Apollo_Core.Modules.Moderation
                 }
                 else
                 {
-                    uow.CustomCommands.Add(new Apollo_Data.Entities.CustomCommandEntity
+                    uow.CustomCommands.Add(new DiscordBot_Data.Entities.CustomCommandEntity
                     {
                         Command = commandName,
                         Reply = reply,

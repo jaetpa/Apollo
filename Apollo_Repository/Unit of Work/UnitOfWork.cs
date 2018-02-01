@@ -1,10 +1,10 @@
-﻿using Apollo_Data.Contexts;
-using Apollo_Repository.Repositories;
+﻿using DiscordBot_Data.Contexts;
+using DiscordBot_Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Apollo_Repository.Unit_of_Work
+namespace DiscordBot_Repository.Unit_of_Work
 {
     public class UnitOfWork : IUnitOfWork
     {

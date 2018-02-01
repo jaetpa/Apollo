@@ -1,11 +1,11 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Apollo_Core.Extensions;
+using DiscordBot_Core.Extensions;
 using System;
 using System.Threading.Tasks;
 
-namespace Apollo_Core.Modules.Moderation
+namespace DiscordBot_Core.Modules.Moderation
 {
     public partial class ModeratorModule
     {
@@ -57,7 +57,7 @@ namespace Apollo_Core.Modules.Moderation
             }
         }
 
-        public static async Task SetMainChannelTopic_Lockdown(Apollo_Data.Entities.ServerEntity entity, SocketTextChannel channel)
+        public static async Task SetMainChannelTopic_Lockdown(DiscordBot_Data.Entities.ServerEntity entity, SocketTextChannel channel)
         {
             string lockdownString = ":warning: Lockdown Mode Enabled!";
 

@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Apollo_Core.Extensions;
+using DiscordBot_Core.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Apollo_Core.Modules.Moderation
+namespace DiscordBot_Core.Modules.Moderation
 {
     public partial class ModeratorModule
     {
