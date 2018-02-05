@@ -25,6 +25,8 @@ namespace DiscordBot_Core.Services
             _client.MessageReceived += CacheMessage;
             _client.MessageUpdated += LogEditedMessage;
             _client.MessageDeleted += LogDeletedMessage;
+            _client.MessageReceived += BlockInvites;
         }
+
     }
 }
