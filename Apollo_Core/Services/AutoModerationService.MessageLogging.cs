@@ -62,6 +62,10 @@ namespace DiscordBot_Core.Services
             {
                 return;
             }
+            if (arg2.Author.IsBot)
+            {
+                return;
+            }
             if (!_messageLists.ContainsKey(channel.Guild.Id))
             {
                 return;
