@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>DiscordBot_Repository</AssemblyName>
+    <RootNamespace>DiscordBot_Repository</RootNamespace>
   </PropertyGroup>
   
   <ItemGroup>
