@@ -68,6 +68,7 @@ namespace DiscordBot_Core
             .AddSingleton<LogChannelService>()
             .AddSingleton<AutoModerationService>()
             .AddSingleton<ModeratorModule>()
+            .AddSingleton<HelperModule>()
             .AddSingleton<StreamNotificationService>()
             .AddSingleton<CustomCommandService>()
 
