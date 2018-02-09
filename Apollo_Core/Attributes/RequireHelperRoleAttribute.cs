@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Apollo_Core.Attributes
+namespace DiscordBot_Core.Attributes
 {
     class RequireHelperRoleAttribute : PreconditionAttribute
     {
