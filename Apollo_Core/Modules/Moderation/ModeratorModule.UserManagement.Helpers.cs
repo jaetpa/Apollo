@@ -21,7 +21,13 @@ namespace DiscordBot_Core.Modules.Moderation
         {
             var mutedRole = await Context.Guild.GetOrCreateMutedRole();
 
-            if (user.Roles.FirstOrDefault(role => role.Id == mutedRole.Id) != null)
+            if (user.Roles.Any(role => role.Name.ToUpper() == "CONDUCTORS"))
+            {
+                await ReplyAsync($"You cannot use this command on a member with this role.");
+                return;
+            }
+
+            if (user.Roles.Any(role => role.Id == mutedRole.Id))
             {
                 await ReplyAsync($"**{user}** is already muted.");
                 return;
@@ -46,7 +52,7 @@ namespace DiscordBot_Core.Modules.Moderation
         public async Task UnmuteUser(SocketGuildUser user)
         {
             var mutedRole = await Context.Guild.GetOrCreateMutedRole();
-            if (user.Roles.FirstOrDefault(role => role.Id == mutedRole.Id) == null)
+            if (!user.Roles.Any(role => role.Id == mutedRole.Id))
             {
                 await ReplyAsync($"**{user}** is not muted.");
                 return;
@@ -71,7 +77,13 @@ namespace DiscordBot_Core.Modules.Moderation
         {
             var mutedRole = await Context.Guild.GetOrCreateMutedRole();
 
-            if (user.Roles.FirstOrDefault(role => role.Id == mutedRole.Id) != null)
+            if (user.Roles.Any(role => role.Name.ToUpper() == "CONDUCTORS"))
+            {
+                await ReplyAsync($"You cannot use this command on a member with this role.");
+                return;
+            }
+
+            if (user.Roles.Any(role => role.Id == mutedRole.Id))
             {
                 await ReplyAsync($"**{user}** is already muted.");
                 return;
