@@ -49,6 +49,7 @@ namespace DiscordBot_Core
             Services.GetRequiredService<AutoModerationService>();
             Services.GetRequiredService<StreamNotificationService>();
             Services.GetRequiredService<CustomCommandService>();
+            Services.GetRequiredService<RedditService>();
 
             await Task.Delay(-1);
         }
@@ -71,6 +72,7 @@ namespace DiscordBot_Core
             .AddSingleton<HelperModule>()
             .AddSingleton<StreamNotificationService>()
             .AddSingleton<CustomCommandService>()
+            .AddSingleton<RedditService>()
 
             .BuildServiceProvider();
         }
@@ -80,6 +82,7 @@ namespace DiscordBot_Core
             return new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("tokens.json")
+                .AddJsonFile("reddit.json")
                 .Build();
         }
     }
