@@ -41,7 +41,8 @@ namespace DiscordBot_Core.Services
 
                         var embed = new EmbedBuilder()
                             .WithEmbedType(EmbedType.Stream, arg2)
-                            .WithDescription($"User **{arg2}** started streaming **{arg2.Game?.Name}** on Twitch!")
+                            .WithDescription($"User **{arg2}** started streaming **{arg2.Game?.Name}** on Twitch!\n" +
+                            $"{arg2.Game?.StreamUrl}")
                             .Build();
 
                         await channel.SendMessageAsync("", embed: embed);
