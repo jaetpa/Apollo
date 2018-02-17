@@ -21,7 +21,7 @@ namespace DiscordBot_Core
             get
             {
                 var token = String.Empty;
-                token = _config["Token"];
+                token = _config["Discord:Token"];
                 return token;
             }
         }
@@ -82,7 +82,6 @@ namespace DiscordBot_Core
             return new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("tokens.json")
-                .AddJsonFile("reddit.json")
                 .Build();
         }
     }
