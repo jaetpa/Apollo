@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DiscordBot_Core.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     class RequireModeratorRoleAttribute : PreconditionAttribute
     {
         private DatabaseService _db;
