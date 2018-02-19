@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBot_Core.Modules.Reddit.Public
+namespace DiscordBot_Core.Modules.Public
 {
     public partial class RedditModule : ModuleBase<SocketCommandContext>
     {
