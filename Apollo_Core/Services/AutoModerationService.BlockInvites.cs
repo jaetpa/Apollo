@@ -16,11 +16,6 @@ namespace DiscordBot_Core.Services
         {
             if (arg.Author is SocketGuildUser user)
             {
-                if (user.Roles.Any(x => x.Name.ToUpper() == "FUTURE FRIENDOS") == false)
-                {
-                    return;
-                }
-
                 List<string> guildInviteCodes = (await user.Guild.GetInvitesAsync()).Select(x => x.Code).ToList();
                 List<string> serverLists = new List<string> { "discord.gg/", "discord.me/", "discordservers.com/", "discordlist.me/", "discord.shoutwiki.com/", "discordlist.com/", "discordlist.net/" };
 
@@ -38,7 +33,15 @@ namespace DiscordBot_Core.Services
                         try
                         {
                             await arg.DeleteAsync();
-                            await user.Guild.AddBanAsync(user, 0, "Posting invite link");
+
+                            if (user.Roles.Any(x => x.Name.ToUpper() == "FUTURE FRIENDOS"))
+                            {
+                                await user.Guild.AddBanAsync(user, 0, "Posting invite link");
+                            }
+                            else
+                            {
+                                return;
+                            }
 
                         }
                         finally

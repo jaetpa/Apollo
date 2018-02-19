@@ -17,10 +17,6 @@ namespace DiscordBot_Core.Services
         {
             if (arg.Author is SocketGuildUser user)
             {
-                if (user.Roles.Any(x => x.Name.ToUpper() == "FUTURE FRIENDOS") == false)
-                {
-                    return;
-                }
 
                 if (arg.Content.ToUpper() == "NIG"
                     || arg.Content.ToUpper().Contains(" NIG ")
@@ -35,8 +31,15 @@ namespace DiscordBot_Core.Services
                             return;
                         }
                         await arg.DeleteAsync();
-                        await user.Guild.AddBanAsync(user, 0, "Using banned words");
 
+                        if (user.Roles.Any(x => x.Name.ToUpper() == "FUTURE FRIENDOS"))
+                        {
+                            await user.Guild.AddBanAsync(user, 0, "Using banned words");
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
                     finally
                     {
