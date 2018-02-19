@@ -30,27 +30,22 @@ namespace DiscordBot_Core.Services
                 {
                     if (arg.Content.Contains(listUrl))
                     {
-                        try
-                        {
-                            await arg.DeleteAsync();
+                        await arg.DeleteAsync();
 
-                            if (user.Roles.Any(x => x.Name.ToUpper() == "FUTURE FRIENDOS"))
+                        if (user.Roles.Any(x => x.Name.ToUpper() == "FUTURE FRIENDOS"))
+                        {
+                            try
                             {
                                 await user.Guild.AddBanAsync(user, 0, "Posting invite link");
                             }
-                            else
+                            finally
                             {
-                                return;
+                                var embed = new EmbedBuilder()
+                                    .WithEmbedType(DiscordBot_Core.EmbedType.Ban, user)
+                                    .WithDescription($"User **{user}** was banned for posting an invite link.")
+                                    .Build();
+                                user.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
                             }
-
-                        }
-                        finally
-                        {
-                            var embed = new EmbedBuilder()
-                                .WithEmbedType(DiscordBot_Core.EmbedType.Ban, user)
-                                .WithDescription($"User **{user}** was banned for posting an invite link.")
-                                .Build();
-                            user.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
                         }
                     }
                 }

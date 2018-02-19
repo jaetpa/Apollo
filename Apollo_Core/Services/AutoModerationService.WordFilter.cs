@@ -23,35 +23,32 @@ namespace DiscordBot_Core.Services
                     || arg.Content.ToUpper().Contains("NIGGA")
                     || arg.Content.ToUpper().Contains("NIGGER"))
                 {
-                    try
+                    if (arg.Content.ToUpper().Contains("SNIGGER")
+                        || arg.Content.ToUpper().Contains("NIGGARD"))
                     {
-                        if (arg.Content.ToUpper().Contains("SNIGGER")
-                            || arg.Content.ToUpper().Contains("NIGGARD"))
-                        {
-                            return;
-                        }
-                        await arg.DeleteAsync();
+                        return;
+                    }
+                    await arg.DeleteAsync();
 
-                        if (user.Roles.Any(x => x.Name.ToUpper() == "FUTURE FRIENDOS"))
+                    if (user.Roles.Any(x => x.Name.ToUpper() == "FUTURE FRIENDOS"))
+                    {
+                        try
                         {
                             await user.Guild.AddBanAsync(user, 0, "Using banned words");
                         }
-                        else
+                        finally
                         {
-                            return;
+                            var embed = new EmbedBuilder()
+                                .WithEmbedType(DiscordBot_Core.EmbedType.Ban, user)
+                                .WithDescription($"User **{user}** was banned for using banned words.")
+                                .Build();
+                            user.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
                         }
-                    }
-                    finally
-                    {
-                        var embed = new EmbedBuilder()
-                            .WithEmbedType(DiscordBot_Core.EmbedType.Ban, user)
-                            .WithDescription($"User **{user}** was banned for using banned words.")
-                            .Build();
-                        user.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
                     }
                 }
             }
         }
-
     }
+
+}
 }
