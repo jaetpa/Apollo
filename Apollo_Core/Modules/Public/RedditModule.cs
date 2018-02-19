@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DiscordBot_Core.Modules.Public
 {
-    public class RedditModule : ModuleBase<SocketCommandContext>
+    public partial class RedditModule : ModuleBase<SocketCommandContext>
     {
         RedditService _redditService;
         RedditApi _reddit;
