@@ -70,6 +70,7 @@ namespace DiscordBot_Core.Modules.Public
             }
         }
 
+        [RequireModeratorRole]
         [Command("askreddit", RunMode = RunMode.Async)]
         [Summary("Gets a random post from r/askreddit")]
         [Remarks("!askreddit")]
