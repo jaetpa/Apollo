@@ -46,8 +46,7 @@ namespace DiscordBot_Core.Modules.Public.Reddit
             var rand = new Random();
             try
             {
-                var links = await SearchReddit(subreddit: "jokes", topic: topic);
-                await ReplyAsync((links.ElementAt(rand.Next(links.Count())) as Link).Title);
+                await ReplyAsync(await GetValidJoke(topic));
             }
             catch (HttpRequestException)
             {
