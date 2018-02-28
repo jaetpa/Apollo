@@ -17,8 +17,8 @@ namespace DiscordBot_Core.Services
         {
             _client = client;
             _guild = client.GetGuild(351118984327856169);
-            var timeUntilDue = DateTimeOffset.Now.AddHours(1).Hour - DateTimeOffset.Now.Minute;
-            _timer = new Timer(CheckUserRoles, null, TimeSpan.FromMinutes(timeUntilDue), TimeSpan.FromHours(1));
+            var timeUntilDue = TimeSpan.FromHours(DateTimeOffset.Now.AddHours(1).Hour) - TimeSpan.FromMinutes(DateTimeOffset.Now.Minute);
+            _timer = new Timer(CheckUserRoles, null, timeUntilDue, TimeSpan.FromHours(1));
         }
 
         private void CheckUserRoles(object state)
