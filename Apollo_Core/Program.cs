@@ -50,6 +50,7 @@ namespace DiscordBot_Core
             Services.GetRequiredService<StreamNotificationService>();
             Services.GetRequiredService<CustomCommandService>();
             Services.GetRequiredService<RedditService>();
+            Services.GetRequiredService<RoleTimerService>();
 
             await Task.Delay(-1);
         }
@@ -73,6 +74,7 @@ namespace DiscordBot_Core
             .AddSingleton<StreamNotificationService>()
             .AddSingleton<CustomCommandService>()
             .AddSingleton<RedditService>()
+            .AddSingleton<RoleTimerService>()
 
             .BuildServiceProvider();
         }
