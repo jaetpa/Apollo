@@ -9,6 +9,7 @@ using Discord.WebSocket;
 using System.IO;
 using Discord;
 using DiscordBot_Core.Modules.Moderation;
+using System.Threading;
 
 namespace DiscordBot_Core
 {
@@ -39,6 +40,8 @@ namespace DiscordBot_Core
             _client = new DiscordSocketClient(socketConfig);
             await _client.LoginAsync(TokenType.Bot, Token);
             await _client.StartAsync();
+
+            Thread.Sleep(2000);
 
             Services = AddServices();
             Services.GetRequiredService<LogService>();
