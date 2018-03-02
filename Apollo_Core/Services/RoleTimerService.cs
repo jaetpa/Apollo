@@ -17,23 +17,27 @@ namespace DiscordBot_Core.Services
         {
             _client = client;
             _guild = client.GetGuild(351118984327856169);
-            var timeUntilDue = TimeSpan.FromHours(DateTimeOffset.Now.AddHours(1).Hour) - TimeSpan.FromMinutes(DateTimeOffset.Now.Minute);
-            _timer = new Timer(CheckUserRoles, null, timeUntilDue, TimeSpan.FromHours(1));
+            //var timeUntilDue = TimeSpan.FromHours(DateTimeOffset.Now.AddHours(1).Hour) - TimeSpan.FromMinutes(DateTimeOffset.Now.Minute);
+            _timer = new Timer(CheckUserRoles, null, TimeSpan.Zero, TimeSpan.FromHours(1));
         }
 
-        private void CheckUserRoles(object state)
+        private async void CheckUserRoles(object state)
         {
-            var futureFriendosRole = _guild.Roles.FirstOrDefault(x => x.Name.ToUpper() == "FUTURE FRIENDOS");
-            var friendosRole = _guild.Roles.FirstOrDefault(x => x.Name.ToUpper() == "FRIENDOS");
+            if (_guild == null)
+            {
+                return;
+            }
+            var futureFriendosRole = _guild?.Roles.FirstOrDefault(x => x.Name.ToUpper() == "FUTURE FRIENDOS");
+            var friendosRole = _guild?.Roles.FirstOrDefault(x => x.Name.ToUpper() == "FRIENDOS");
 
-            var futureFriendos = _guild.Users.Where(x => x.Roles.Any(y => y.Name.ToUpper() == "FUTURE FRIENDOS"));
+            var futureFriendos = _guild?.Users.Where(x => x.Roles.Any(y => y.Name.ToUpper() == "FUTURE FRIENDOS"));
 
             foreach (var user in futureFriendos)
             {
                 if (DateTimeOffset.Now - user.JoinedAt > TimeSpan.FromDays(7))
                 {
-                    user.RemoveRoleAsync(futureFriendosRole);
-                    user.AddRoleAsync(friendosRole);
+                    await user.RemoveRoleAsync(futureFriendosRole);
+                    await user.AddRoleAsync(friendosRole);
                 }
             }
         }
