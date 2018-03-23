@@ -19,5 +19,6 @@ namespace DiscordBot_Data.Entities
         public DateTimeOffset LockdownTime { get; set; }
 
         public virtual ICollection<QuoteEntity> Quotes { get; set; }
+        public DateTimeOffset LastBumpTime { get; set; }
     }
 }
