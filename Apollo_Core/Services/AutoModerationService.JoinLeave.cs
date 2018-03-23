@@ -12,6 +12,7 @@ namespace DiscordBot_Core.Services
     {
         public List<ulong> KickedUsers { get; set; } = new List<ulong>();
         public List<ulong> BannedUsers { get; set; } = new List<ulong>();
+        public Dictionary<ulong, ulong> JoinMessages { get; set; } = new Dictionary<ulong, ulong>();
 
         private async Task AntiRaid(SocketGuildUser arg)
         {
@@ -63,7 +64,10 @@ namespace DiscordBot_Core.Services
 
             if (welcomeChannel != null)
             {
-                await welcomeChannel.SendMessageAsync($"**{arg.Mention}** gets on stage and takes the mic.");
+                var msg = await welcomeChannel.SendMessageAsync($"**{arg.Mention}** gets on stage and takes the mic.");
+
+                JoinMessages.TryAdd(arg.Id, msg.Id);
+
                 //TODO: Add time since account creation
                 //TODO: Add join card
             }
@@ -104,6 +108,13 @@ namespace DiscordBot_Core.Services
 
         private async Task UserLeft(SocketGuildUser arg)
         {
+            if (JoinMessages.ContainsKey(arg.Id))
+            {
+                var msg = await arg.Guild.GetMainChannel().GetMessageAsync(JoinMessages[arg.Id]);
+                await (msg as SocketUserMessage).ModifyAsync(x => x.Content = msg.Content + ".. then drops it and leaves.");
+
+                JoinMessages.Remove(arg.Id);
+            }
             if (KickedUsers.Contains(arg.Id) || BannedUsers.Contains(arg.Id))
             {
                 return;
