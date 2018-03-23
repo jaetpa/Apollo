@@ -10,6 +10,9 @@ namespace DiscordBot_Core.Services
 {
     public partial class AutoModerationService
     {
+        public List<ulong> KickedUsers { get; set; } = new List<ulong>();
+        public List<ulong> BannedUsers { get; set; } = new List<ulong>();
+
         private async Task AntiRaid(SocketGuildUser arg)
         {
             int recentJoins = 0;
@@ -43,6 +46,9 @@ namespace DiscordBot_Core.Services
 
         private async Task UserJoined(SocketGuildUser arg)
         {
+            KickedUsers.RemoveAll(x => x == arg.Id);
+            BannedUsers.RemoveAll(x => x == arg.Id);
+
             var userQueue = GetOrCreateUserQueue(arg.Guild);
             userQueue.Enqueue(arg);
 
@@ -65,7 +71,7 @@ namespace DiscordBot_Core.Services
             {
                 var embed = new EmbedBuilder()
                     .WithEmbedType(EmbedType.Join, arg)
-                    .WithDescription($"User **{arg}** joined the server. Account created **{(int)((DateTimeOffset.Now - arg.CreatedAt).TotalDays)}** days ago.")
+                    .WithDescription($"User **{arg}** joined the server. Account created **{arg.CreatedAt:ddd dd MMM, yyyy} ({GetTimeSince(arg.CreatedAt)} ago).**")
                     .Build();
                 await logChannel.SendMessageAsync("", embed: embed);
             }
@@ -87,6 +93,7 @@ namespace DiscordBot_Core.Services
         private void BlockUserJoin(SocketGuildUser user)
         {
             user.KickAsync("Joined during Lockdown mode.");
+            KickedUsers.Add(user.Id);
             var embed = new EmbedBuilder()
                 .WithEmbedType(EmbedType.LockdownKick, user)
                 .WithDescription($"User **{user}** was automatically kicked by Lockdown mode. Account created {(int)(DateTimeOffset.Now - user.CreatedAt).TotalDays} days ago.")
@@ -97,8 +104,12 @@ namespace DiscordBot_Core.Services
 
         private async Task UserLeft(SocketGuildUser arg)
         {
+            if (KickedUsers.Contains(arg.Id) || BannedUsers.Contains(arg.Id))
+            {
+                return;
+            }
+
             //TODO: Stop leave messages for people kicked during lockdown
-            var welcomeChannel = arg.Guild.GetWelcomeChannel();
 
             using (var uow = _db.UnitOfWork)
             {
@@ -111,20 +122,64 @@ namespace DiscordBot_Core.Services
                 {
                     return;
                 }
-                if (welcomeChannel != null)
-                {
-                    await welcomeChannel.SendMessageAsync($"**{arg.Mention}** drops the mic and gets off the stage.");
-                    var logChannel = arg.Guild.GetLogChannel();
-                    if (logChannel != null)
-                    {
-                        var embed = new EmbedBuilder()
-                            .WithEmbedType(EmbedType.Leave, arg)
-                            .WithDescription($"User **{arg}** left the server.")
-                            .Build();
-                        await logChannel.SendMessageAsync("", embed: embed);
+            }
 
-                    }
-                }
+            var logChannel = arg.Guild.GetLogChannel();
+            if (logChannel != null)
+            {
+                var embed = new EmbedBuilder()
+                    .WithEmbedType(EmbedType.Leave, arg)
+                    .WithDescription($"User **{arg}** left the server after {GetTimeSince(arg.JoinedAt)}.")
+                    .Build();
+                await logChannel.SendMessageAsync("", embed: embed);
+            }
+        }
+
+        private async Task UserBanned(SocketUser arg1, SocketGuild arg2)
+        {
+            if (BannedUsers.Contains(arg1.Id))
+            {
+                return;
+            }
+            else
+            {
+                BannedUsers.Add(arg1.Id);
+            }
+            var logChannel = arg2.GetLogChannel();
+            if (logChannel != null)
+            {
+                var embed = new EmbedBuilder()
+                    .WithEmbedType(EmbedType.Ban, arg1)
+                    .WithDescription($"User **{arg1}** was banned from the server.")
+                    .Build();
+
+                await logChannel.SendMessageAsync("", embed: embed);
+            }
+        }
+
+        private string GetTimeSince(DateTimeOffset? eventTime)
+        {
+            if (!eventTime.HasValue)
+            {
+                return "...some time";
+            }
+            TimeSpan duration = (DateTimeOffset.Now - eventTime).Value;
+
+            if (duration < TimeSpan.FromMinutes(1))
+            {
+                return $"{duration.Seconds} seconds";
+            }
+            else if (duration < TimeSpan.FromHours(1))
+            {
+                return $"{duration.Minutes} minutes, {duration.Seconds} seconds";
+            }
+            else if (duration < TimeSpan.FromDays(1))
+            {
+                return $"{duration.Hours} hours, {duration.Minutes} minutes";
+            }
+            else
+            {
+                return $"{duration.Days} days";
             }
         }
     }

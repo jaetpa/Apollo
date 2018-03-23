@@ -13,10 +13,12 @@ namespace DiscordBot_Core.Modules.Moderation
     public partial class ModeratorModule : ModuleBase<SocketCommandContext>
     {
         private DatabaseService _db;
+        private AutoModerationService _autoModService;
 
-        public ModeratorModule(DatabaseService db)
+        public ModeratorModule(DatabaseService db, AutoModerationService autoModService)
         {
             _db = db;
+            _autoModService = autoModService;
         }
 
         [Command("test")]

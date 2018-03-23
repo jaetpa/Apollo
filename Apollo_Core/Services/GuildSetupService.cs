@@ -17,11 +17,11 @@ namespace DiscordBot_Core.Services
             _client = client;
             _db = db;
 
-            _client.GuildAvailable += EnsureGuildInDb;
+            _client.GuildAvailable += EnsureGuildInDbAsync;
             _client.GuildAvailable += SetLockdownModeTopic;
         }
 
-        private Task EnsureGuildInDb(SocketGuild arg)
+        private async Task EnsureGuildInDbAsync(SocketGuild arg)
         {
             using (var uow = _db.UnitOfWork)
             {
@@ -34,12 +34,27 @@ namespace DiscordBot_Core.Services
                 }
                 else if (entity.GuildName != arg.Name)
                 {
-                    uow.Servers.Update(entity);
                     entity.GuildName = arg.Name;
+                    uow.Servers.Update(entity);
                     uow.SaveChanges();
                 }
+                else
+                {
+                    var dmChannel = await arg.Owner.GetOrCreateDMChannelAsync();
+
+                    var timeUntilDue = TimeSpan.FromHours(6) - (DateTimeOffset.Now - entity.LastBumpTime);
+
+                    if (timeUntilDue >= TimeSpan.Zero)
+                    {
+                        await new TaskFactory().StartNew(async () =>
+                        {
+                            await Task.Delay(timeUntilDue);
+                            await dmChannel.SendMessageAsync("It's time to bump the server! :alarm_clock:");
+                        });
+                    }
+
+                }
             }
-            return Task.CompletedTask;
         }
 
         private async Task SetLockdownModeTopic(SocketGuild arg)

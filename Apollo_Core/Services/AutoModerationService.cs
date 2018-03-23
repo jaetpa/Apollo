@@ -22,12 +22,12 @@ namespace DiscordBot_Core.Services
             _client.UserJoined += UserJoined;
             _client.UserJoined += AntiRaid;
             _client.UserLeft += UserLeft;
+            _client.UserBanned += UserBanned;
             _client.MessageReceived += CacheMessage;
             _client.MessageUpdated += LogEditedMessage;
             _client.MessageDeleted += LogDeletedMessage;
             _client.MessageReceived += BlockInvites;
             _client.MessageReceived += BlockFilteredWords;
         }
-
     }
 }

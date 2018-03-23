@@ -47,6 +47,19 @@ namespace DiscordBot_Core.Modules.Moderation
                 await ReplyAsync("Only the owner can use this command.");
                 return;
             }
+
+            using (var uow = _db.UnitOfWork)
+            {
+                var server = uow.Servers.Find(Context.Guild.Id);
+                if (server.LastBumpTime > (DateTimeOffset.Now - TimeSpan.FromHours(1)))
+                {
+                    await ReplyAsync($"The server was bumped less than 6 hours ago ({server.LastBumpTime:HH:mm:ss UTC}).");
+                    return;
+                }
+                server.LastBumpTime = DateTimeOffset.Now;
+                uow.SaveChanges();
+            }
+
             var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
             await new TaskFactory().StartNew(async () =>
             {

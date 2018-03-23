@@ -35,6 +35,8 @@ namespace DiscordBot_Core.Services
                         try
                         {
                             await user.Guild.AddBanAsync(user, 0, "Using banned words");
+                            BannedUsers.Add(user.Id);
+
                         }
                         finally
                         {

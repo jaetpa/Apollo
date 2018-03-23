@@ -37,6 +37,7 @@ namespace DiscordBot_Core.Services
                             try
                             {
                                 await user.Guild.AddBanAsync(user, 0, "Posting invite link");
+                                BannedUsers.Add(user.Id);
                             }
                             finally
                             {

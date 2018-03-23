@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using DiscordBot_Core.Extensions;
+using DiscordBot_Core.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace DiscordBot_Core.Modules.Moderation
         public async Task KickUser(SocketGuildUser user, [Remainder] string reason = null)
         {
             await user.KickAsync(reason);
+            _autoModService.KickedUsers.Add(user.Id);
 
             var embed = new EmbedBuilder()
                 .WithEmbedType(EmbedType.Kick, user)
@@ -24,7 +26,6 @@ namespace DiscordBot_Core.Modules.Moderation
                 $"Reason: {reason ?? "none specified"}")
                 .Build();
 
-            await ReplyAsync("", embed: embed);
             await Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
 
         }
@@ -35,6 +36,7 @@ namespace DiscordBot_Core.Modules.Moderation
         public async Task BanUser(SocketGuildUser user, [Remainder] string reason = null)
         {
             await Context.Guild.AddBanAsync(user, reason: reason);
+            _autoModService.BannedUsers.Add(user.Id);
 
             var embed = new EmbedBuilder()
                 .WithEmbedType(EmbedType.Ban, user)
@@ -43,8 +45,6 @@ namespace DiscordBot_Core.Modules.Moderation
                 $"Reason: {reason ?? "none specified"}")
                 .Build();
 
-            await Context.Guild.GetMainChannel()?.SendMessageAsync($"**{user}** gets booed at and falls off stage.");
-            await ReplyAsync("", embed: embed);
             await Context.Guild.GetLogChannel()?.SendMessageAsync("", embed: embed);
 
         }
@@ -73,6 +73,7 @@ namespace DiscordBot_Core.Modules.Moderation
                     if (banFlag == "b" || banFlag == "B")
                     {
                         await Context.Guild.AddBanAsync(guildUser);
+                        _autoModService.BannedUsers.Add(user.Id);
                     }
                     else
                     {
