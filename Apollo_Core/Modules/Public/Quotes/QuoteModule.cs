@@ -53,7 +53,7 @@ namespace DiscordBot_Core.Modules.Public.Quotes
 
                 var quote = quotes.ElementAt(_rand.Next(quotes.Count()));
 
-                await ReplyAsync(quote.Quote);
+                await ReplyAsync(":speech_balloon: " + quote.Quote);
             }
 
         }
