@@ -14,7 +14,7 @@ namespace DiscordBot_Core.Attributes
         {
             if (context.User is SocketGuildUser user)
             {
-                if (user.Roles.Any(x => x.Name.ToUpper() == "HELPERS")
+                if (user.Roles.Any(x => x.Name.ToUpper() == "STAGEHANDS")
                     || user.Roles.Any(x => x.Name.ToUpper() == "CONDUCTORS"))
                 {
                     return PreconditionResult.FromSuccess();
