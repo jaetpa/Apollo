@@ -108,41 +108,51 @@ namespace DiscordBot_Core.Services
 
         private async Task UserLeft(SocketGuildUser arg)
         {
-            if (JoinMessages.ContainsKey(arg.Id))
+            try
             {
-                var msg = await arg.Guild.GetMainChannel().GetMessageAsync(JoinMessages[arg.Id]);
-                await (msg as SocketUserMessage).ModifyAsync(x => x.Content = msg.Content + ".. then drops it and leaves.");
+                if (JoinMessages.ContainsKey(arg.Id))
+                {
+                    var msg = await arg.Guild.GetMainChannel().GetMessageAsync(JoinMessages[arg.Id]);
+                    await (msg as SocketUserMessage).ModifyAsync(x => x.Content = msg.Content + ".. then drops it and leaves.");
 
-                JoinMessages.Remove(arg.Id);
-            }
-            if (KickedUsers.Contains(arg.Id) || BannedUsers.Contains(arg.Id))
-            {
-                return;
-            }
-
-            //TODO: Stop leave messages for people kicked during lockdown
-
-            using (var uow = _db.UnitOfWork)
-            {
-                var server = uow.Servers.Find(arg.Guild.Id);
-                if (server == null)
+                    JoinMessages.Remove(arg.Id);
+                }
+                if (KickedUsers.Contains(arg.Id) || BannedUsers.Contains(arg.Id))
                 {
                     return;
                 }
-                if (arg.Guild.LockdownEnabled() && arg.JoinedAt > server.LockdownTime)
-                {
-                    return;
-                }
-            }
 
-            var logChannel = arg.Guild.GetLogChannel();
-            if (logChannel != null)
+                //TODO: Stop leave messages for people kicked during lockdown
+
+                using (var uow = _db.UnitOfWork)
+                {
+                    var server = uow.Servers.Find(arg.Guild.Id);
+                    if (server == null)
+                    {
+                        return;
+                    }
+                    if (arg.Guild.LockdownEnabled() && arg.JoinedAt > server.LockdownTime)
+                    {
+                        return;
+                    }
+                }
+
+                var logChannel = arg.Guild.GetLogChannel();
+                if (logChannel != null)
+                {
+                    var embed = new EmbedBuilder()
+                        .WithEmbedType(EmbedType.Leave, arg)
+                        .WithDescription($"User **{arg}** left the server after {GetTimeSince(arg.JoinedAt)}.")
+                        .Build();
+                    await logChannel.SendMessageAsync("", embed: embed);
+                }
+
+            }
+            catch (Exception ex)
             {
-                var embed = new EmbedBuilder()
-                    .WithEmbedType(EmbedType.Leave, arg)
-                    .WithDescription($"User **{arg}** left the server after {GetTimeSince(arg.JoinedAt)}.")
-                    .Build();
-                await logChannel.SendMessageAsync("", embed: embed);
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                throw;
             }
         }
 
