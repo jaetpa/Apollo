@@ -41,7 +41,7 @@ namespace DiscordBot_Core
             await _client.LoginAsync(TokenType.Bot, Token);
             await _client.StartAsync();
 
-            //await Task.Delay(2000);
+            await Task.Delay(2000);
 
             Services = AddServices();
             Services.GetRequiredService<LogService>();
@@ -53,7 +53,7 @@ namespace DiscordBot_Core
             Services.GetRequiredService<StreamNotificationService>();
             Services.GetRequiredService<CustomCommandService>();
             Services.GetRequiredService<RedditService>();
-            //Services.GetRequiredService<RoleTimerService>();
+            Services.GetRequiredService<RoleTimerService>();
 
             await Task.Delay(-1);
         }

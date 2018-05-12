@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DiscordBot_Core.Services
 {
@@ -18,7 +19,7 @@ namespace DiscordBot_Core.Services
             _client = client;
             _guild = client.GetGuild(351118984327856169);
             //var timeUntilDue = TimeSpan.FromHours(DateTimeOffset.Now.AddHours(1).Hour) - TimeSpan.FromMinutes(DateTimeOffset.Now.Minute);
-            _timer = new Timer(CheckUserRoles, null, TimeSpan.Zero, TimeSpan.FromHours(1));
+            _timer = new Timer(CheckUserRoles, null, TimeSpan.FromSeconds(5), TimeSpan.FromHours(1));
         }
 
         private async void CheckUserRoles(object state)
