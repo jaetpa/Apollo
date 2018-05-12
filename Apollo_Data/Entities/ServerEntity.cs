@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DiscordBot_Data.Entities
+namespace Apollo_Data.Entities
 {
     public class ServerEntity : DatabaseEntity
     {
@@ -14,11 +14,8 @@ namespace DiscordBot_Data.Entities
         public ulong? LogChannelId { get; set; }
         public ulong? DeleteLogChannelId { get; set; }
         public ulong? VoiceTextChannelId { get; set; }
-        public ulong? StreamTextChannelId { get; set; }
         public bool Lockdown { get; set; } = false;
-        public DateTimeOffset LockdownTime { get; set; }
 
         public virtual ICollection<QuoteEntity> Quotes { get; set; }
-        public DateTimeOffset LastBumpTime { get; set; }
     }
 }

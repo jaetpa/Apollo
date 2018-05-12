@@ -1,11 +1,11 @@
-﻿using DiscordBot_Data.Contexts;
-using DiscordBot_Data.Entities;
+﻿using Apollo_Data.Contexts;
+using Apollo_Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace DiscordBot_Repository.Repositories
+namespace Apollo_Repository.Repositories
 {
     public class QuoteRepository : IRepository<QuoteEntity>
     {

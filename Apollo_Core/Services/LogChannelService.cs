@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using DiscordBot_Core.Extensions;
+using Apollo_Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBot_Core.Services
+namespace Apollo_Core.Services
 {
     class LogChannelService
     {

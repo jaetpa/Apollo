@@ -1,13 +1,32 @@
-﻿using Discord.Commands;
-using Discord.WebSocket;
-using DiscordBot_Core.Extensions;
+﻿using Discord;
+using Discord.Commands;
+using Apollo_Core.Extensions;
+using Apollo_Core.Services;
+using Apollo_Repository.Unit_of_Work;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBot_Core.Modules.Moderation
+namespace Apollo_Core.Modules.Moderation
 {
-    public partial class ModeratorModule
+    public partial class ModeratorModule : ModuleBase<SocketCommandContext>
     {
+        private DatabaseService _db;
+
+        public ModeratorModule(DatabaseService db)
+        {
+            _db = db;
+        }
+
+        [Command("test")]
+        public async Task Test()
+        {
+            var embedBuilder = new EmbedBuilder().WithEmbedType(EmbedType.UsernameChange, Context.User).WithTimestamp();
+            var embed = embedBuilder.Build();
+            await ReplyAsync("", embed: embed);
+        }
+
         [Command("setgame")]
         [Summary("Sets Apollo's game status.")]
         [Remarks("!setgame Cleaning tables")]
@@ -24,51 +43,5 @@ namespace DiscordBot_Core.Modules.Moderation
             var channel = Context.Guild.GetMainChannel();
             await channel.SendMessageAsync(text);
         }
-
-        [Command("say")]
-        [Summary("Posts a message to a specified channel via Apollo.")]
-        [Remarks("!say #general I'm always watching")]
-        public async Task SendMessageToChannel(SocketTextChannel channel = null, [Remainder] string text = "")
-        {
-            if (channel == null)
-            {
-                channel = Context.Channel as SocketTextChannel;
-            }
-            await channel.SendMessageAsync(text);
-        }
-
-        [Command("bump", RunMode = RunMode.Async)]
-        [Summary("Reminds the owner to bump the server in 6 hours.")]
-        [Remarks("!bump")]
-        public async Task BumpReminder([Remainder] string text = "")
-        {
-            if (Context.User.Id != Context.Guild.OwnerId)
-            {
-                await ReplyAsync("Only the owner can use this command.");
-                return;
-            }
-
-            using (var uow = _db.UnitOfWork)
-            {
-                var server = uow.Servers.Find(Context.Guild.Id);
-                if (server.LastBumpTime > (DateTimeOffset.Now - TimeSpan.FromHours(1)))
-                {
-                    await ReplyAsync($"The server was bumped less than 6 hours ago ({server.LastBumpTime:HH:mm:ss UTC}).");
-                    return;
-                }
-                server.LastBumpTime = DateTimeOffset.Now;
-                uow.SaveChanges();
-            }
-
-            var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
-            await new TaskFactory().StartNew(async () =>
-            {
-                await ReplyAsync("I'll remind you to bump in 6 hours.");
-                await dmChannel.SendMessageAsync("6 hours and counting!");
-                await Task.Delay(TimeSpan.FromHours(6));
-                await dmChannel.SendMessageAsync("It's time to bump the server! :alarm_clock:");
-            });
-        }
-
     }
 }

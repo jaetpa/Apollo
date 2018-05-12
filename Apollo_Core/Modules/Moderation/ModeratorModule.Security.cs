@@ -1,13 +1,15 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using DiscordBot_Core.Extensions;
+using Apollo_Core.Extensions;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBot_Core.Modules.Moderation
+namespace Apollo_Core.Modules.Moderation
 {
-    public partial class ModeratorModule
+    public partial class ModeratorModule : ModuleBase<SocketCommandContext>
     {
         [Command("lockdown")]
         [Summary("Toggles lockdown mode where no new users can join the server.")]
@@ -25,10 +27,6 @@ namespace DiscordBot_Core.Modules.Moderation
 
                 uow.Servers.Update(entity);
                 entity.Lockdown = !entity.Lockdown;
-                if (entity.Lockdown)
-                {
-                    entity.LockdownTime = DateTimeOffset.Now;
-                }
                 uow.SaveChanges();
 
                 if (entity.Lockdown)
@@ -57,7 +55,7 @@ namespace DiscordBot_Core.Modules.Moderation
             }
         }
 
-        public static async Task SetMainChannelTopic_Lockdown(DiscordBot_Data.Entities.ServerEntity entity, SocketTextChannel channel)
+        public static async Task SetMainChannelTopic_Lockdown(Apollo_Data.Entities.ServerEntity entity, SocketTextChannel channel)
         {
             string lockdownString = ":warning: Lockdown Mode Enabled!";
 

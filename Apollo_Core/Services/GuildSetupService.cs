@@ -1,12 +1,12 @@
 ﻿using Discord.WebSocket;
-using DiscordBot_Core.Extensions;
-using DiscordBot_Core.Modules.Moderation;
+using Apollo_Core.Extensions;
+using Apollo_Core.Modules.Moderation;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBot_Core.Services
+namespace Apollo_Core.Services
 {
     public class GuildSetupService
     {
@@ -17,11 +17,11 @@ namespace DiscordBot_Core.Services
             _client = client;
             _db = db;
 
-            _client.GuildAvailable += EnsureGuildInDbAsync;
+            _client.GuildAvailable += EnsureGuildInDb;
             _client.GuildAvailable += SetLockdownModeTopic;
         }
 
-        private async Task EnsureGuildInDbAsync(SocketGuild arg)
+        private Task EnsureGuildInDb(SocketGuild arg)
         {
             using (var uow = _db.UnitOfWork)
             {
@@ -29,32 +29,17 @@ namespace DiscordBot_Core.Services
 
                 if (entity == null)
                 {
-                    uow.Servers.Add(new DiscordBot_Data.Entities.ServerEntity { Id = arg.Id, GuildName = arg.Name });
+                    uow.Servers.Add(new Apollo_Data.Entities.ServerEntity { Id = arg.Id, GuildName = arg.Name });
                     uow.SaveChanges();
                 }
                 else if (entity.GuildName != arg.Name)
                 {
-                    entity.GuildName = arg.Name;
                     uow.Servers.Update(entity);
+                    entity.GuildName = arg.Name;
                     uow.SaveChanges();
                 }
-                else
-                {
-                    var dmChannel = await arg.Owner.GetOrCreateDMChannelAsync();
-
-                    var timeUntilDue = TimeSpan.FromHours(6) - (DateTimeOffset.Now - entity.LastBumpTime);
-
-                    if (timeUntilDue >= TimeSpan.Zero)
-                    {
-                        await new TaskFactory().StartNew(async () =>
-                        {
-                            await Task.Delay(timeUntilDue);
-                            await dmChannel.SendMessageAsync("It's time to bump the server! :alarm_clock:");
-                        });
-                    }
-
-                }
             }
+            return Task.CompletedTask;
         }
 
         private async Task SetLockdownModeTopic(SocketGuild arg)

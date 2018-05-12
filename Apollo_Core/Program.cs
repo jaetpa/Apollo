@@ -4,25 +4,24 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Discord.Commands;
-using DiscordBot_Core.Services;
+using Apollo_Core.Services;
 using Discord.WebSocket;
 using System.IO;
 using Discord;
-using DiscordBot_Core.Modules.Moderation;
-using System.Threading;
+using Apollo_Core.Modules.Moderation;
 
-namespace DiscordBot_Core
+namespace Apollo_Core
 {
     class Program
     {
-        public static IServiceProvider Services { get; private set; }
+        public IServiceProvider Services { get; private set; }
         public ILogger Logger { get; private set; } = new LoggerFactory().CreateLogger("");
         public string Token
         {
             get
             {
                 var token = String.Empty;
-                token = _config["Discord:Token"];
+                token = _config["Token"];
                 return token;
             }
         }
@@ -36,12 +35,10 @@ namespace DiscordBot_Core
         {
             _config = BuildConfig();
 
-            DiscordSocketConfig socketConfig = new DiscordSocketConfig { AlwaysDownloadUsers = true, MessageCacheSize = 1000 };
+            DiscordSocketConfig socketConfig = new DiscordSocketConfig { AlwaysDownloadUsers = true };
             _client = new DiscordSocketClient(socketConfig);
             await _client.LoginAsync(TokenType.Bot, Token);
             await _client.StartAsync();
-
-            await Task.Delay(2000);
 
             Services = AddServices();
             Services.GetRequiredService<LogService>();
@@ -50,10 +47,6 @@ namespace DiscordBot_Core
             Services.GetRequiredService<GuildSetupService>();
             Services.GetRequiredService<LogChannelService>();
             Services.GetRequiredService<AutoModerationService>();
-            Services.GetRequiredService<StreamNotificationService>();
-            Services.GetRequiredService<CustomCommandService>();
-            Services.GetRequiredService<RedditService>();
-            Services.GetRequiredService<RoleTimerService>();
 
             await Task.Delay(-1);
         }
@@ -73,12 +66,6 @@ namespace DiscordBot_Core
             .AddSingleton<LogChannelService>()
             .AddSingleton<AutoModerationService>()
             .AddSingleton<ModeratorModule>()
-            .AddSingleton<HelperModule>()
-            .AddSingleton<StreamNotificationService>()
-            .AddSingleton<CustomCommandService>()
-            .AddSingleton<RedditService>()
-            .AddSingleton<RoleTimerService>()
-
             .BuildServiceProvider();
         }
 

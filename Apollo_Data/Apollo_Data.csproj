@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>DiscordBot_Data</AssemblyName>
-    <RootNamespace>DiscordBot_Data</RootNamespace>
+    <AssemblyName>Apollo_Data</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

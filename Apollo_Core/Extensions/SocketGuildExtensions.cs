@@ -1,14 +1,10 @@
-﻿using Discord;
-using Discord.WebSocket;
-using DiscordBot_Core.Services;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Discord.WebSocket;
+using Apollo_Core.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace DiscordBot_Core.Extensions
+namespace Apollo_Core.Extensions
 {
     public static class SocketGuildExtensions
     {
@@ -101,41 +97,5 @@ namespace DiscordBot_Core.Extensions
             }
         }
 
-        public static async Task<IRole> GetOrCreateMutedRole(this SocketGuild guild)
-        {
-            var mutedRole = guild.Roles.FirstOrDefault(role => role.Name.ToUpper() == "MUTED");
-
-            if (mutedRole != null)
-            {
-                return mutedRole;
-            }
-            else
-            {
-                var restMutedRole = await guild.CreateRoleAsync("Muted", GuildPermissions.None, new Color(0xDD4646));
-                foreach (var channel in guild.Channels)
-                {
-                    await channel.AddPermissionOverwriteAsync(restMutedRole,
-                        new OverwritePermissions(
-                            speak: PermValue.Deny,
-                            sendMessages: PermValue.Deny,
-                            addReactions: PermValue.Deny));
-                }
-                return restMutedRole;
-            }
-        }
-
-        public static async Task<UserJoinQueue> GetUserJoinQueueAsync(this SocketGuild guild)
-        {
-            var autoModService = Program.Services.GetRequiredService<AutoModerationService>();
-
-            if (autoModService.UserQueues.ContainsKey(guild.Id))
-            {
-                return autoModService.UserQueues[guild.Id];
-            }
-            else
-            {
-                return null;
-            }
-        }
     }
 }

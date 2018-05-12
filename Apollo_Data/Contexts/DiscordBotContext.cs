@@ -1,18 +1,16 @@
-﻿using DiscordBot_Data.Entities;
+﻿using Apollo_Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace DiscordBot_Data.Contexts
+namespace Apollo_Data.Contexts
 {
     public class DiscordBotContext:DbContext
     {
         public DbSet<ServerEntity> Servers { get; set; }
         public DbSet<QuoteEntity> Quotes { get; set; }
-        public DbSet<CustomCommandEntity> CustomCommands { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {

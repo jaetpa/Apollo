@@ -3,29 +3,23 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <RootNamespace>DiscordBot_Core</RootNamespace>
-    <AssemblyName>DiscordBot_Core</AssemblyName>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;NETCOREAPP2_0</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;NETCOREAPP2_0</DefineConstants>
+    <AssemblyName>Apollo_Core</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="1.0.2" />
+    <None Remove="tokens.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Addons.MicrosoftLogging" Version="2.0.0-beta-00005" />
+    <PackageReference Include="Discord.Net" Version="2.0.0-beta-00880" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
-    <PackageReference Include="Reddit.Net" Version="1.0.33" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Apollo_Data\Apollo_Data.csproj" />
     <ProjectReference Include="..\Apollo_Repository\Apollo_Repository.csproj" />
   </ItemGroup>
 

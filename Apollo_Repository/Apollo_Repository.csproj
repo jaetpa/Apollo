@@ -2,10 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>DiscordBot_Repository</AssemblyName>
-    <RootNamespace>DiscordBot_Repository</RootNamespace>
+    <AssemblyName>Apollo_Repository</AssemblyName>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Apollo_Data\Apollo_Data.csproj" />
   </ItemGroup>

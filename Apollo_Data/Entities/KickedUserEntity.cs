@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DiscordBot_Data.Entities
+namespace Apollo_Data.Entities
 {
     public class KickedUserEntity : DatabaseEntity
     {

@@ -1,10 +1,13 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBot_Core.Modules.Moderation
+namespace Apollo_Core.Modules.Moderation
 {
-    public partial class ModeratorModule
+    public partial class ModeratorModule : ModuleBase<SocketCommandContext>
     {
         [Command("setmainchannel")]
         [Summary("Designates a text channel as the server's main/general channel.")]
@@ -160,28 +163,5 @@ namespace DiscordBot_Core.Modules.Moderation
                 }
             }
         }
-
-        [Command("setstreamchannel")]
-        [Summary("Designates a text channel as the server's stream notification channel.")]
-        [Remarks("!setvoicetextchannel #vc")]
-        public async Task SetStreamNotificationChannel(SocketTextChannel channel = null)
-        {
-            using (var uow = _db.UnitOfWork)
-            {
-                var entity = uow.Servers.Find(Context.Guild.Id);
-                if (entity != null)
-                {
-                    uow.Servers.Update(entity);
-                    entity.StreamTextChannelId = channel?.Id ?? Context.Channel.Id;
-                    uow.SaveChanges();
-                    await ReplyAsync($"Channel {channel?.Mention ?? (Context.Channel as SocketTextChannel).Mention} has been set as the **stream notification** channel.");
-                }
-                else
-                {
-                    await ReplyAsync("This server was not found in the database.");
-                }
-            }
-        }
-
     }
 }
